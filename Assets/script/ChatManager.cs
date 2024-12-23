@@ -37,8 +37,8 @@ public class ChatManager : MonoBehaviour
 
     void ReturnToMyRoom()
     {
-        Debug.Log("나가기 버튼 클릭: myroomScenes 이동");
-        SceneManager.LoadScene("myroomScenes");
+        Debug.Log("나가기 버튼 클릭: GameRoom 이동");
+        SceneManager.LoadScene("GameRoom");
     }
 
     void LoadUserData()

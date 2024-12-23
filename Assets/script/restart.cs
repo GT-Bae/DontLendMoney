@@ -28,6 +28,6 @@ public class restart : MonoBehaviour
         PlayerPrefs.Save();
 
         Debug.Log("게임 데이터가 초기화되었습니다.");
-        SceneManager.LoadScene("myroomScenes");
+        SceneManager.LoadScene("GameRoom");
     }
 }
