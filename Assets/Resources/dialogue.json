@@ -1,0 +1,30 @@
+[
+    {
+        "speaker": "FRIEND",
+        "message": "야 자고있냐?"
+    },
+    {
+        "speaker": "ME",
+        "message": "ㄴㄴ 게임 중 왜?"
+    },
+    {
+        "speaker": "FRIEND",
+        "message": "나 친구들이랑 술좀 먹게 10만원만 빌려줄 수 있음?"
+    },
+    {
+        "speaker": "ME",
+        "message": "ㅇㅋㅇㅋ 계좌보내노셈 보내드림"
+    },
+    {
+        "speaker": "FRIEND",
+        "message": "ㄳㄳ 내일이나 이틀뒤에 보내드림"
+    },
+    {
+        "speaker": "ME",
+        "message": "나 지금 생활비가 조금 빠듯해서 힘들 듯 ㅈㅅ"
+    },
+    {
+        "speaker": "FRIEND",
+        "message": "아 월말이니 힘들 수 도 있지 ㅇㅋㅇㅋ 즐겜하고"
+    }
+]

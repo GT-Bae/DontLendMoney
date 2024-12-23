@@ -1,0 +1,37 @@
+[
+    {
+        "speaker": "김성윤",
+        "profile": "friend.png",
+        "message": "야 자고있냐?"
+    },
+    {
+        "speaker": "나",
+        "profile": "me.png",
+        "message": "ㄴㄴ 게임 중 왜?"
+    },
+    {
+        "speaker": "김성윤",
+        "profile": "friend.png",
+        "message": "나 친구들이랑 술좀 먹게 10만원만 빌려줄 수 있음?"
+    },
+    {
+        "speaker": "나",
+        "profile": "me.png",
+        "message": "ㅇㅋㅇㅋ 계좌 보내놔"
+    },
+    {
+        "speaker": "김성윤",
+        "profile": "friend.png",
+        "message": "오 ㄳㄳ 내일 이나 모레 줄께"
+    },
+    {
+        "speaker": "나",
+        "profile": "me.png",
+        "message": "나 지금 생활비가 조금 빠듯해서 힘들 듯 ㅈㅅ"
+    },
+    {
+        "speaker": "김성윤",
+        "profile": "friend.png",
+        "message": "ㅇㅋㅇㅋ 월 말이니깐 그렇 수 있지"
+    }
+]
