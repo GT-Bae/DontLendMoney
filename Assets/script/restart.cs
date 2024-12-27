@@ -41,8 +41,8 @@ public class restart : MonoBehaviour
 
         // 기본 값 설정
         PlayerPrefs.SetInt("CurrentDay", 28); // 기본 날짜
-        PlayerPrefs.SetFloat("MyMoney", 300f); // 기본 금액
-        PlayerPrefs.SetInt("CurrentHealth", 30); // 기본 체력
+        PlayerPrefs.SetFloat("MyMoney", 0); // 기본 금액
+        PlayerPrefs.SetInt("CurrentHealth", 0); // 기본 체력
 
         // 첫 날 실행 플래그 설정
         PlayerPrefs.SetInt("NewDay", 1); // NewDay 플래그를 true로 설정
