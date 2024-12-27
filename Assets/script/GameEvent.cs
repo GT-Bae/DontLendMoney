@@ -13,7 +13,7 @@ public class GameEvent : MonoBehaviour
 
     public Button albaButton; // 알바 버튼
     public Button sleepButton; // 휴식 버튼
-    public Button phoneButton;
+    public Button phoneButton; // 핸드폰 버튼
 
     private const int maxHealth = 3;
     private const int maxFriends = 60;
@@ -73,13 +73,15 @@ public class GameEvent : MonoBehaviour
             currentDay--;
             PlayerPrefs.SetInt("CurrentDay", currentDay);
 
-            PlayerPrefs.SetInt("CurrentHealth", maxHealth);
+            // 새로운 날 시작
+            PlayerPrefs.SetInt("NewDay", 1); // NewDay 값을 1로 설정
+            PlayerPrefs.SetInt("CurrentHealth", maxHealth); // 체력 회복
             SaveGameData();
 
             UpdateDayText();
             UpdateHealthText(maxHealth);
 
-            Debug.Log("휴식을 취했습니다. 날짜 -1, 체력 완전히 회복.");
+            Debug.Log("휴식을 취했습니다. 날짜 -1, 체력 완전히 회복. 새로운 날이 시작되었습니다.");
         }
         else
         {

@@ -3,72 +3,72 @@
         "profile": "profile1",
         "name": "김성윤",
         "message": "ㅁㄴㅇ123",
-        "sceneName": "GIMSEONGYUN_masage"
+        "sceneName": "GIMSEONGYUN_message"
     },
     {
         "profile": "profile2",
         "name": "박시윤",
         "message": "ㅁㄴㅇ1111",
-        "sceneName": "Scene1"
+        "sceneName": "BAKSIYUN_message"
     },
     {
         "profile": "profile3",
-        "name": "이한비",
+        "name": "이정만",
         "message": "ㅂㅈㄷ",
-        "sceneName": "Scene1"
+        "sceneName": "LEEJEONGMAN_message"
     },
     {
         "profile": "profile4",
         "name": "김시현",
         "message": "ㅋㅌㅊ",
-        "sceneName": "Scene1"
+        "sceneName": "GIMSIHYEON_message"
     },
     {
         "profile": "profile5",
         "name": "박종현",
         "message": "asd",
-        "sceneName": "Scene1"
+        "sceneName": "BAKJONGHYEON_message"
     },
     {
         "profile": "profile6",
-        "name": "최형만",
+        "name": "최민수",
         "message": "qwe",
-        "sceneName": "Scene1"
+        "sceneName": "CHOIMINSU_message"
     },
     {
         "profile": "profile7",
         "name": "권장민",
         "message": "xzzxc",
-        "sceneName": "Scene1"
+        "sceneName": "GWONJANGMIN_message"
     },
     {
         "profile": "profile8",
         "name": "정동민",
         "message": "asdg",
-        "sceneName": "Scene1"
+        "sceneName": "JEONGDONGMIN_message"
     },
     {
         "profile": "profile9",
         "name": "오서윤",
         "message": "asdqw",
-        "sceneName": "Scene1"
+        "sceneName": "OHSEOYUN_message"
     },
     {
         "profile": "profile10",
         "name": "김수환",
         "message": "asdqw",
-        "sceneName": "Scene1"
+        "sceneName": "GIMSUHWAN_message"
     },
     {
         "profile": "profile11",
         "name": "박연지",
         "message": "sfdgdrg",
-        "sceneName": "Scene1"
+        "sceneName": "BAKYEONJI_message"
     },
     {
         "profile": "profile12",
         "name": "최경민",
         "message": "asdqw",
-        "sceneName": "Scene1"
+        "sceneName": "CHOIGYEONGMIN_message"
     }
 ]

@@ -25,6 +25,11 @@ public class ChatManager : MonoBehaviour
     public string userDataFileName = "userData";
     public Button exitButton;
 
+    private List<UserData> allUsers = new List<UserData>();
+    private List<UserData> displayedUsers = new List<UserData>();
+    private HashSet<int> usedIndices = new HashSet<int>(); // 이미 뽑힌 유저의 인덱스
+    private const int usersPerDay = 3;
+
     private void Start()
     {
         if (exitButton != null)
@@ -33,6 +38,16 @@ public class ChatManager : MonoBehaviour
         }
 
         LoadUserData();
+
+        // 기존 버튼 로드
+        LoadDisplayedUsers();
+
+        // NewDay 값이 1이면 새로운 버튼 추가
+        if (PlayerPrefs.GetInt("NewDay", 0) == 1)
+        {
+            PlayerPrefs.SetInt("NewDay", 0); // Reset NewDay flag
+            AddNewButtonsForDay();
+        }
     }
 
     void ReturnToMyRoom()
@@ -55,15 +70,58 @@ public class ChatManager : MonoBehaviour
 
             UserDataList userList = JsonUtility.FromJson<UserDataList>(jsonData);
 
-            foreach (var user in userList.items)
-            {
-                CreateChatButton(user);
-            }
+            allUsers = userList.items;
         }
         else
         {
             Debug.LogError($"JSON 파일을 찾을 수 없습니다. 경로: Resources/{userDataFileName}.json");
         }
+    }
+
+    void AddNewButtonsForDay()
+    {
+        int addedCount = 0;
+
+        while (addedCount < usersPerDay && usedIndices.Count < allUsers.Count)
+        {
+            int randomIndex = Random.Range(0, allUsers.Count);
+            if (!usedIndices.Contains(randomIndex))
+            {
+                usedIndices.Add(randomIndex);
+                UserData newUser = allUsers[randomIndex];
+                displayedUsers.Add(newUser);
+                CreateChatButton(newUser);
+                addedCount++;
+            }
+        }
+
+        SaveDisplayedUsers();
+    }
+
+    void LoadDisplayedUsers()
+    {
+        string savedData = PlayerPrefs.GetString("DisplayedUsers", "");
+        if (!string.IsNullOrEmpty(savedData))
+        {
+            UserDataList loadedData = JsonUtility.FromJson<UserDataList>(savedData);
+            displayedUsers = loadedData.items;
+
+            foreach (var user in displayedUsers)
+            {
+                CreateChatButton(user);
+            }
+        }
+    }
+
+    void SaveDisplayedUsers()
+    {
+        UserDataList dataToSave = new UserDataList { items = displayedUsers };
+        string jsonData = JsonUtility.ToJson(dataToSave);
+        PlayerPrefs.SetString("DisplayedUsers", jsonData);
+
+        // 이미 사용된 인덱스 저장
+        PlayerPrefs.SetString("UsedIndices", string.Join(",", usedIndices));
+        PlayerPrefs.Save();
     }
 
     void CreateChatButton(UserData user)
