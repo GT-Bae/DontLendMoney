@@ -5,14 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class GameEvent : MonoBehaviour
 {
-    public Text healthText; // 泥대  UI ㅽ
-    public Text dayText; // 吏  UI ㅽ
-    public Text mymoneytext; //   UI ㅽ
-    public Text progressText;  // 紐⑺ 湲 吏   UI ㅽ
-    public Text friendText; // 移援   UI ㅽ
+    public Text healthText; // 체력 UI 텍스트
+    public Text dayText; // 현재 날짜 UI 텍스트
+    public Text mymoneytext; // 내 돈 UI 텍스트
+    public Text progressText;  // 진행 상황 UI 텍스트
+    public Text friendText; // 친구 수 UI 텍스트
 
-    private const int maxHealth = 3; // 理 泥대
-    private const int maxFriends = 0; // 理 移援 
+    private const int maxHealth = 3; // 최대 체력
+    private const int maxFriends = 0; // 최대 친구 수
 
     private void Start()
     {
@@ -25,8 +25,8 @@ public class GameEvent : MonoBehaviour
 
     private void SaveGameData()
     {
-        PlayerPrefs.Save(); // 寃 곗댄 �
-        Debug.Log("寃 곗댄곌 �λ듬.");
+        PlayerPrefs.Save(); // 게임 데이터를 저장
+        Debug.Log("게임 데이터가 저장되었습니다.");
     }
 
     public void PerformAlba()
@@ -56,75 +56,75 @@ public class GameEvent : MonoBehaviour
 
     public void PerformSleep()
     {
-        int currentDay = PlayerPrefs.GetInt("CurrentDay", 28); //  吏 媛�몄ㅺ린
-        if (currentDay > 0) // 吏媛 ⑥쇰㈃
+        int currentDay = PlayerPrefs.GetInt("CurrentDay", 28); // 현재 날짜 가져오기
+        if (currentDay > 0) // 날짜가 0 이상일 때만 진행
         {
-            currentDay--; // 吏 媛
-            PlayerPrefs.SetInt("CurrentDay", currentDay); // 吏 �
+            currentDay--; // 날짜 감소
+            PlayerPrefs.SetInt("CurrentDay", currentDay); // 날짜 저장
 
-            // 濡  
-            PlayerPrefs.SetInt("NewDay", 1); // NewDay 媛 1濡 ㅼ
-            PlayerPrefs.SetInt("CurrentHealth", maxHealth); // 泥대μ 理媛쇰 蹂
-            SaveGameData(); // 寃 곗댄 �
+            // 새 날을 시작
+            PlayerPrefs.SetInt("NewDay", 1); // NewDay 값을 1로 설정
+            PlayerPrefs.SetInt("CurrentHealth", maxHealth); // 최대 체력으로 복원
+            SaveGameData(); // 게임 데이터 저장
 
-            UpdateDayText(); // 吏 ㅽ 곗댄
-            UpdateHealthText(maxHealth); // 泥대 ㅽ 곗댄
+            UpdateDayText(); // 날짜 UI 업데이트
+            UpdateHealthText(maxHealth); // 체력 UI 업데이트
 
-            Debug.Log(" 怨 猷④ 吏媛듬. 吏 -1, 泥대 蹂, 濡  .");
+            Debug.Log("하루가 지나갔습니다. 날짜 -1, 체력 회복, 새 날 시작.");
         }
         else
         {
-            Debug.Log(" 댁 吏媛 ⑥     듬.");
+            Debug.Log("더 이상 날짜가 남지 않았습니다.");
         }
     }
 
     private void UpdateHealthText(int health)
     {
-        healthText.text = "泥대: " + health + " / " + maxHealth; // 泥대 ㅽ 곗댄
+        healthText.text = "체력: " + health + " / " + maxHealth; // 체력 UI 업데이트
     }
 
     private void UpdateDayText()
     {
-        int currentDay = PlayerPrefs.GetInt("CurrentDay", 28); //  吏 媛�몄ㅺ린
-        dayText.text = "D-" + currentDay; // 吏 ㅽ 곗댄
+        int currentDay = PlayerPrefs.GetInt("CurrentDay", 28); // 현재 날짜 가져오기
+        dayText.text = "D-" + currentDay; // 날짜 UI 업데이트
     }
 
     private void UpdateMoneyText(float money)
     {
-        mymoneytext.text = "怨: " + money + "留"; //  ㅽ 곗댄
+        mymoneytext.text = "내 돈: " + money + "원"; // 내 돈 UI 업데이트
     }
 
     private void UpdateProgressText(float money)
     {
-        progressText.text = "�ㅻ : " + money + "留"; // 吏  ㅽ 곗댄
+        progressText.text = "진행 상황: " + money + "원"; // 진행 상황 UI 업데이트
     }
 
     private void UpdateFriendText(int friends)
     {
-        friendText.text = "移援: " + friends + " / " + maxFriends; // 移援  ㅽ 곗댄
+        friendText.text = "친구 수: " + friends + " / " + maxFriends; // 친구 수 UI 업데이트
     }
 
     public void AddFriend()
     {
-        int currentFriends = PlayerPrefs.GetInt("CurrentFriends", 0); //  移援  媛�몄ㅺ린
+        int currentFriends = PlayerPrefs.GetInt("CurrentFriends", 0); // 현재 친구 수 가져오기
 
-        if (currentFriends < maxFriends) // 理 移援 蹂대 �쇰㈃
+        if (currentFriends < maxFriends) // 최대 친구 수 미달 시 친구 추가
         {
-            currentFriends++; // 移援  利媛
-            PlayerPrefs.SetInt("CurrentFriends", currentFriends); // 移援  �
-            SaveGameData(); // 寃 곗댄 �
+            currentFriends++; // 친구 수 증가
+            PlayerPrefs.SetInt("CurrentFriends", currentFriends); // 친구 수 저장
+            SaveGameData(); // 게임 데이터 저장
 
-            UpdateFriendText(currentFriends); // 移援  ㅽ 곗댄
-            Debug.Log("移援ш 異媛듬.");
+            UpdateFriendText(currentFriends); // 친구 수 UI 업데이트
+            Debug.Log("친구가 추가되었습니다.");
         }
         else
         {
-            Debug.Log("理 移援  ы듬.");
+            Debug.Log("최대 친구 수를 초과할 수 없습니다.");
         }
     }
 
     private void OnApplicationQuit()
     {
-        SaveGameData(); // 由ъ댁 醫猷  寃 곗댄 �
+        SaveGameData(); // 애플리케이션 종료 시 게임 데이터 저장
     }
 }
