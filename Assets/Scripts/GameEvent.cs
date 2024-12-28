@@ -28,7 +28,7 @@ public class GameEvent : MonoBehaviour
         UpdateFriendText(PlayerPrefs.GetInt("CurrentFriends", 0));
 
         // 버튼 클릭 이벤트 등록
-        albaButton.onClick.AddListener(PerformAlba);
+        //albaButton.onClick.AddListener(PerformAlba);
         sleepButton.onClick.AddListener(PerformSleep);
         phoneButton.onClick.AddListener(OpenPhone);
     }
@@ -39,31 +39,31 @@ public class GameEvent : MonoBehaviour
         Debug.Log("게임 데이터가 저장되었습니다.");
     }
 
-    public void PerformAlba()
-    {
-        int currentHealth = PlayerPrefs.GetInt("CurrentHealth", maxHealth);
-        float currentMoney = PlayerPrefs.GetFloat("MyMoney", 10f);
+    //public void PerformAlba()
+    //{
+    //    int currentHealth = PlayerPrefs.GetInt("CurrentHealth", maxHealth);
+    //    float currentMoney = PlayerPrefs.GetFloat("MyMoney", 10f);
 
-        if (currentHealth > 0)
-        {
-            currentHealth--;
-            currentMoney += 10;
+    //    if (currentHealth > 0)
+    //    {
+    //        currentHealth--;
+    //        currentMoney += 10;
 
-            PlayerPrefs.SetInt("CurrentHealth", currentHealth);
-            PlayerPrefs.SetFloat("MyMoney", currentMoney);
-            SaveGameData();
+    //        PlayerPrefs.SetInt("CurrentHealth", currentHealth);
+    //        PlayerPrefs.SetFloat("MyMoney", currentMoney);
+    //        SaveGameData();
 
-            UpdateHealthText(currentHealth);
-            UpdateMoneyText(currentMoney);
-            UpdateProgressText(currentMoney);
+    //        UpdateHealthText(currentHealth);
+    //        UpdateMoneyText(currentMoney);
+    //        UpdateProgressText(currentMoney);
 
-            Debug.Log("알바를 완료했습니다. 체력 -1, 돈 +10만 원");
-        }
-        else
-        {
-            Debug.Log("체력이 부족하여 알바를 할 수 없습니다.");
-        }
-    }
+    //        Debug.Log("알바를 완료했습니다. 체력 -1, 돈 +10만 원");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("체력이 부족하여 알바를 할 수 없습니다.");
+    //    }
+    //}
 
     public void PerformSleep()
     {
