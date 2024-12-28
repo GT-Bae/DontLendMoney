@@ -1436,9 +1436,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   profileImages:
-  - {fileID: -7183278108408538850, guid: 2b0f3040c34bdd34bbd8fa3d4b6be761, type: 3}
-  - {fileID: -5208024173850542898, guid: 945c3ec8ffe6e874dabc69a859c8cf05, type: 3}
-  - {fileID: 7421679893309909224, guid: 458d6c11ecfefb441ba68cc162394518, type: 3}
+  - {fileID: -5492317307538232701, guid: 6480505a34b547f4880fbe51ff76aa22, type: 3}
+  - {fileID: 7604604692442229997, guid: 804aad2128662594c9f8946b0e23f6f6, type: 3}
+  - {fileID: 2781921886299178611, guid: 00bccb29b517fb14188e0b19776a3317, type: 3}
   staticNameList:
   - "\uC545\uB9C8"
   - "\uAE40\uBBFC\uC900"
@@ -2026,7 +2026,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -7039278036542493594, guid: d5489a026ffe3ba4ab835ba6768aebd5, type: 3}
+  m_Sprite: {fileID: 7421679893309909224, guid: 458d6c11ecfefb441ba68cc162394518, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3203,7 +3203,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 10
   m_Viewport: {fileID: 1538452105}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
