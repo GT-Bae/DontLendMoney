@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e04adb53af0fac342b990f91d7a9f410
+guid: 9a3f75c35b9ce9747b26ab3df9a71edb
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6821343344619960041
-    second: error_0
+      213: 2587510582270649505
+    second: RoomCalendar_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: error_0
+      name: RoomCalendar_0
       rect:
         serializedVersion: 2
-        x: 23
-        y: 50
-        width: 47
-        height: 26
+        x: 0
+        y: 0
+        width: 30
+        height: 25
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9e63c0381a74aae50800000000000000
-      internalID: 6821343344619960041
+      spriteID: 1a46ec45a2fa8e320800000000000000
+      internalID: 2587510582270649505
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      error_0: 6821343344619960041
+      RoomCalendar_0: 2587510582270649505
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
