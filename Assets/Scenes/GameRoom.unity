@@ -1356,9 +1356,6 @@ MonoBehaviour:
   mymoneytext: {fileID: 1464998685}
   progressText: {fileID: 1832236915}
   friendText: {fileID: 50243097}
-  albaButton: {fileID: 603504795}
-  sleepButton: {fileID: 1027892082}
-  phoneButton: {fileID: 1371753794}
 --- !u!4 &688444814
 Transform:
   m_ObjectHideFlags: 0
@@ -2200,7 +2197,6 @@ GameObject:
   - component: {fileID: 1371753796}
   - component: {fileID: 1371753795}
   - component: {fileID: 1371753794}
-  - component: {fileID: 1371753797}
   m_Layer: 5
   m_Name: Phone
   m_TagString: Untagged
@@ -2321,19 +2317,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1371753792}
   m_CullTransparentMesh: 1
---- !u!114 &1371753797
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1371753792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b80b6f31248c5742b96913d8809fa58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneName: PhoneChat
 --- !u!1 &1391983926
 GameObject:
   m_ObjectHideFlags: 0
