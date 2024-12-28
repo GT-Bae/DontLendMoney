@@ -40,16 +40,6 @@ public class RandomNamePositioner : MonoBehaviour
         // 이름 리스트 랜덤 섞기
         ShuffleList(nameList);
 
-        // Content의 초기 크기와 위치 설정
-        RectTransform contentRect = contentTransform.GetComponent<RectTransform>();
-        if (contentRect == null)
-        {
-            Debug.LogError("해당객체에 RectTransform이 없습니다.");
-            return;
-        }
-
-        Debug.Log(contentRect.anchoredPosition.x + " "+ contentRect.anchoredPosition.y);
-
         // 이름 리스트에 따라 Prefab 생성
         foreach (var name in nameList)
         {
