@@ -5,143 +5,127 @@ using UnityEngine.SceneManagement;
 
 public class GameEvent : MonoBehaviour
 {
-    public Text healthText; // ü���� ǥ���� UI �ؽ�Ʈ
-    public Text dayText; // ��¥�� ǥ���� UI �ؽ�Ʈ
-    public Text mymoneytext; // �÷��̾� ������ �ؽ�Ʈ
-    public Text progressText;  // ��ǥ �ݾ� �޼� ���� ��Ȳ ǥ�� �ؽ�Ʈ
-    public Text friendText; // ģ�� �� �ؽ�Ʈ
+    public Text healthText; // 체력 표시 UI 텍스트
+    public Text dayText; // 날짜 표시 UI 텍스트
+    public Text mymoneytext; // 돈 표시 UI 텍스트
+    public Text progressText;  // 목표 금액 진행 상태 표시 UI 텍스트
+    public Text friendText; // 친구 수 표시 UI 텍스트
 
-    public Button albaButton; // �˹� ��ư
-    public Button sleepButton; // �޽� ��ư
-    public Button phoneButton; // �ڵ��� ��ư
-
-    private const int maxHealth = 3;
-    private const int maxFriends = 60;
-    private const float targetAmount = 1000; // ��ǥ �ݾ�
+    private const int maxHealth = 3; // 최대 체력
+    private const int maxFriends = 0; // 최대 친구 수
 
     private void Start()
     {
-        UpdateDayText();
-        UpdateHealthText(PlayerPrefs.GetInt("CurrentHealth", maxHealth));
-        UpdateMoneyText(PlayerPrefs.GetFloat("MyMoney", 10f));
-        UpdateProgressText(PlayerPrefs.GetFloat("MyMoney", 10f));
-        UpdateFriendText(PlayerPrefs.GetInt("CurrentFriends", 0));
-
-        // ��ư Ŭ�� �̺�Ʈ ���
-        albaButton.onClick.AddListener(PerformAlba);
-        sleepButton.onClick.AddListener(PerformSleep);
-        phoneButton.onClick.AddListener(OpenPhone);
+        UpdateDayText(); // 날짜 업데이트
+        UpdateHealthText(PlayerPrefs.GetInt("CurrentHealth", maxHealth)); // 체력 업데이트
+        UpdateMoneyText(PlayerPrefs.GetFloat("MyMoney", 10f)); // 돈 업데이트
+        UpdateProgressText(PlayerPrefs.GetFloat("MyMoney", 10f)); // 진행 상황 업데이트
+        UpdateFriendText(PlayerPrefs.GetInt("CurrentFriends", 0)); // 친구 수 업데이트
     }
 
     private void SaveGameData()
     {
-        PlayerPrefs.Save();
-        Debug.Log("���� �����Ͱ� ����Ǿ����ϴ�.");
+        PlayerPrefs.Save(); // 게임 데이터 저장
+        Debug.Log("게임 데이터가 저장되었습니다.");
     }
 
     public void PerformAlba()
     {
-        int currentHealth = PlayerPrefs.GetInt("CurrentHealth", maxHealth);
-        float currentMoney = PlayerPrefs.GetFloat("MyMoney", 10f);
+        int currentHealth = PlayerPrefs.GetInt("CurrentHealth", maxHealth); // 현재 체력 가져오기
+        float currentMoney = PlayerPrefs.GetFloat("MyMoney", 10f); // 현재 돈 가져오기
 
-        if (currentHealth > 0)
+        if (currentHealth > 0) // 체력이 남아있으면
         {
-            currentHealth--;
-            currentMoney += 10;
+            currentHealth--; // 체력 감소
+            currentMoney += 10; // 돈 증가
 
-            PlayerPrefs.SetInt("CurrentHealth", currentHealth);
-            PlayerPrefs.SetFloat("MyMoney", currentMoney);
-            SaveGameData();
+            PlayerPrefs.SetInt("CurrentHealth", currentHealth); // 체력 저장
+            PlayerPrefs.SetFloat("MyMoney", currentMoney); // 돈 저장
+            SaveGameData(); // 게임 데이터 저장
 
-            UpdateHealthText(currentHealth);
-            UpdateMoneyText(currentMoney);
-            UpdateProgressText(currentMoney);
+            UpdateHealthText(currentHealth); // 체력 텍스트 업데이트
+            UpdateMoneyText(currentMoney); // 돈 텍스트 업데이트
+            UpdateProgressText(currentMoney); // 진행 상황 업데이트
 
-            Debug.Log("�˹ٸ� �Ϸ��߽��ϴ�. ü�� -1, �� +10�� ��");
+            Debug.Log("아르바이트를 했습니다. 체력 -1, 돈 +10");
         }
         else
         {
-            Debug.Log("ü���� �����Ͽ� �˹ٸ� �� �� �����ϴ�.");
+            Debug.Log("체력이 부족하여 아르바이트를 할 수 없습니다.");
         }
     }
 
     public void PerformSleep()
     {
-        int currentDay = PlayerPrefs.GetInt("CurrentDay", 28);
-        if (currentDay > 0)
+        int currentDay = PlayerPrefs.GetInt("CurrentDay", 28); // 현재 날짜 가져오기
+        if (currentDay > 0) // 날짜가 남아있으면
         {
-            currentDay--;
-            PlayerPrefs.SetInt("CurrentDay", currentDay);
+            currentDay--; // 날짜 감소
+            PlayerPrefs.SetInt("CurrentDay", currentDay); // 날짜 저장
 
-            // ���ο� �� ����
-            PlayerPrefs.SetInt("NewDay", 1); // NewDay ���� 1�� ����
-            PlayerPrefs.SetInt("CurrentHealth", maxHealth); // ü�� ȸ��
-            SaveGameData();
+            // 새로운 날 시작
+            PlayerPrefs.SetInt("NewDay", 1); // NewDay 값을 1로 설정
+            PlayerPrefs.SetInt("CurrentHealth", maxHealth); // 체력을 최대값으로 회복
+            SaveGameData(); // 게임 데이터 저장
 
-            UpdateDayText();
-            UpdateHealthText(maxHealth);
+            UpdateDayText(); // 날짜 텍스트 업데이트
+            UpdateHealthText(maxHealth); // 체력 텍스트 업데이트
 
-            Debug.Log("�޽��� ���߽��ϴ�. ��¥ -1, ü�� ������ ȸ��. ���ο� ���� ���۵Ǿ����ϴ�.");
+            Debug.Log("잠을 자고 하루가 지나갔습니다. 날짜 -1, 체력 회복, 새로운 날 시작.");
         }
         else
         {
-            Debug.Log("��¥�� �� �̻� �پ�� �� �����ϴ�.");
+            Debug.Log("더 이상 날짜가 남지 않아 잠을 잘 수 없습니다.");
         }
     }
 
     private void UpdateHealthText(int health)
     {
-        healthText.text = "ü��: " + health + " / " + maxHealth;
+        healthText.text = "체력: " + health + " / " + maxHealth; // 체력 텍스트 업데이트
     }
 
     private void UpdateDayText()
     {
-        int currentDay = PlayerPrefs.GetInt("CurrentDay", 28);
-        dayText.text = "Day -" + currentDay + "D";
+        int currentDay = PlayerPrefs.GetInt("CurrentDay", 28); // 현재 날짜 가져오기
+        dayText.text = "D-" + currentDay; // 날짜 텍스트 업데이트
     }
 
     private void UpdateMoneyText(float money)
     {
-        mymoneytext.text = money + "����";
+        mymoneytext.text = "잔고: " + money + "만원"; // 돈 텍스트 업데이트
     }
 
     private void UpdateProgressText(float money)
     {
-        progressText.text = money + "���� / " + targetAmount + "����";
+        progressText.text = "돌려받은 돈: " + money + "만원"; // 진행 상태 텍스트 업데이트
     }
 
     private void UpdateFriendText(int friends)
     {
-        friendText.text = "�� ģ��: " + friends + " / " + maxFriends;
+        friendText.text = "친구: " + friends + " / " + maxFriends; // 친구 수 텍스트 업데이트
     }
 
     public void AddFriend()
     {
-        int currentFriends = PlayerPrefs.GetInt("CurrentFriends", 0);
+        int currentFriends = PlayerPrefs.GetInt("CurrentFriends", 0); // 현재 친구 수 가져오기
 
-        if (currentFriends < maxFriends)
+        if (currentFriends < maxFriends) // 최대 친구 수보다 적으면
         {
-            currentFriends++;
-            PlayerPrefs.SetInt("CurrentFriends", currentFriends);
-            SaveGameData();
+            currentFriends++; // 친구 수 증가
+            PlayerPrefs.SetInt("CurrentFriends", currentFriends); // 친구 수 저장
+            SaveGameData(); // 게임 데이터 저장
 
-            UpdateFriendText(currentFriends);
-            Debug.Log("ģ���� �߰��߽��ϴ�.");
+            UpdateFriendText(currentFriends); // 친구 수 텍스트 업데이트
+            Debug.Log("친구가 추가되었습니다.");
         }
         else
         {
-            Debug.Log("�ִ� ģ�� ���� �����߽��ϴ�.");
+            Debug.Log("최대 친구 수에 도달했습니다.");
         }
-    }
-
-    public void OpenPhone()
-    {
-        SaveGameData();
-        SceneManager.LoadScene("masaage");
     }
 
     private void OnApplicationQuit()
     {
-        SaveGameData();
+        SaveGameData(); // 애플리케이션 종료 시 게임 데이터 저장
     }
 }
