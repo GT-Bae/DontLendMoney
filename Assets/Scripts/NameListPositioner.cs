@@ -1,10 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro; // TextMeshPro 사용을 위한 네임스페이스
 
-public class RandomNamePositioner : MonoBehaviour
+public class NameListPositioner : MonoBehaviour
 {
-    public List<string> nameList = new List<string>
+    public Sprite[] profileImages; // 프로필 이미지 배열
+    public List<string> staticNameList = new List<string>
+    {"악마", "김민준", "고훈이"};
+    public List<string> randomNameList = new List<string>
     {
         "동동수", "각티수", "마우수", "기보드", "마이클", "오이지", "수정석", "직구본",
         "대불암", "곽이손", "황꺽정", "김필수", "이우나", "박거세", "최면식", "정리왕",
@@ -38,10 +42,33 @@ public class RandomNamePositioner : MonoBehaviour
         }
 
         // 이름 리스트 랜덤 섞기
-        ShuffleList(nameList);
+        ShuffleList(randomNameList);
+
+        for (int i = 0; i < staticNameList.Count; i++) 
+        {
+            GameObject newPrefab = Instantiate(prefab, contentTransform); // Content에 추가
+            newPrefab.name = staticNameList[i]; // staticNameList의 이름 사용
+
+            // "Name"이라는 TextMeshProUGUI 컴포넌트에 이름 표시
+            var nameText = newPrefab.transform.Find("Name")?.GetComponent<TextMeshProUGUI>();
+            if (nameText != null)
+            {
+                nameText.text = staticNameList[i];
+            }
+            else
+            {
+                Debug.LogError($"{newPrefab.name} 프리팹에 TMP가 없습니다.");
+            }
+
+            var profile = newPrefab.transform.Find("Profile")?.GetComponent<Image>();
+            if (profile != null)
+            {
+                profile.sprite = profileImages[i];
+            }
+        }
 
         // 이름 리스트에 따라 Prefab 생성
-        foreach (var name in nameList)
+        foreach (var name in randomNameList)
         {
             GameObject newPrefab = Instantiate(prefab, contentTransform); // Content에 추가
             newPrefab.name = name;
