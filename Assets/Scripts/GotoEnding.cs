@@ -48,7 +48,7 @@ public class GotoEnding : MonoBehaviour
                 break;
             case 1:
                 title[2].text = "급전이 필요했다";
-                content[2].text = "대출을 받았습니다.\n돈이 자꾸 빠져나가는데 어쩔 수 없었죠.\n이번 주 이자는 냈으니 한 시름 놓았네요.";
+                content[2].text = "대출을 받았습니다.\n돈이 자꾸 빠져나가는데 어쩔 수 없었죠.\n이번 이자는 냈으니 한 시름 놓았네요.";
                 break;
         }
 
@@ -60,7 +60,7 @@ public class GotoEnding : MonoBehaviour
                 break;
             case 1:
                 title[3].text = "친구관계에 돈 없다.";
-                content[3].text = "‘야~ 친구니까 빌려줘라’ 라는 말은 허황된 말이라는 것을 깨달았습니다.\n오직 돈 만으로는 친구관계를 만들 수 없습니다.\n친구라는 관계에서 채무자와 채권자와의 관계로 변질되는 것은 한 순간입니다.";
+                content[3].text = "‘야~ 친구니까 빌려줘라’ 라는 말은 허황된 말이라는 것을 깨달았습니다.\n오직 돈 만으로는 친구관계를 만들 수 없습니다.\n친구라는 관계에서 채무자와 채권자와의 관계로 변질되는 것은\n한 순간입니다.";
                 break;
         }
 
