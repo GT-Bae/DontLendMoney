@@ -16,6 +16,7 @@ public class BedtoSleep : MonoBehaviour // Panel 불투명도 조절해 페이�
     public GameObject panel; // 불투명도를 조절할 Panel 오브젝트
     public TextMeshProUGUI messageText; // 화면에 표시할 텍스트 UI 요소
     public GameObject sleepUI;
+    public GameObject FirstsleepUI;
     private Action onCompleteCallback; // FadeIn 또는 FadeOut 다음에 진행할 함수
 
     void Start()
@@ -54,8 +55,6 @@ public class BedtoSleep : MonoBehaviour // Panel 불투명도 조절해 페이�
         messageText.gameObject.SetActive(true); // 메시지 텍스트 활성화
         sleepUI.SetActive(false); // sleepUI 비활성화
         FadeOut();
-        AudioSource SleepSound = GetComponent<AudioSource>();
-        SleepSound.Play();
         StartCoroutine(WaitAndFadeIn(5f)); // 5초 후에 FadeIn 호출
     }
 
@@ -101,6 +100,12 @@ public class BedtoSleep : MonoBehaviour // Panel 불투명도 조절해 페이�
     IEnumerator WaitAndFadeIn(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
+        if (FirstsleepUI.activeSelf)
+        {
+            // FirstsleepUI를 비활성화
+            FirstsleepUI.SetActive(false);
+            Debug.Log("FirstsleepUI가 비활성화되었습니다.");
+        }
         FadeIn();
     }
 
