@@ -33,6 +33,7 @@ public class GameEvent : MonoBehaviour
     private BedtoSleep bedtoSleep; // 수면 효과 스크립트
     private GotoEnding gotoEnding; // 엔딩 스크립트
     private CalendarManager calendarManager; // 엔딩 스크립트
+    private ArticleManager articleManager; // 기사 스크립트
     private void Start()
     {
         // 같은 오브젝트에 있는 ArbeitPositioner 컴포넌트를 가져옴
@@ -40,6 +41,7 @@ public class GameEvent : MonoBehaviour
         bedtoSleep = GetComponent<BedtoSleep>();
         gotoEnding = GetComponent<GotoEnding>();
         calendarManager = GetComponent<CalendarManager>();
+        articleManager = GetComponent<ArticleManager>();
         UpdateDayText();
         UpdateHealthText(PlayerPrefs.GetInt("CurrentHealth", maxHealth));
         UpdateMoneyText(PlayerPrefs.GetInt("MyMoney", 0));
@@ -105,7 +107,7 @@ public class GameEvent : MonoBehaviour
         int currentMoney = PlayerPrefs.GetInt("MyMoney", 0);
         if (currentDay < 28) // 마지막날이면 엔딩으로
         {
-            // 돈 빠지는거
+            // 돈 빠지는거 및 기사사
             switch (currentDay) {
                 case 2:
                     currentMoney -= 10;
@@ -116,7 +118,7 @@ public class GameEvent : MonoBehaviour
                 case 10:
                     currentMoney -= 30;
                     break;
-                case 14:
+                case 13:
                     currentMoney -= 30;
                     break;
                 case 16:
@@ -125,13 +127,13 @@ public class GameEvent : MonoBehaviour
                 case 18:
                     currentMoney -= 50;
                     break;
-                case 21:
+                case 20:
                     currentMoney -= 30;
                     break;
                 case 23:
                     currentMoney -= 10;
                     break;
-                case 28:
+                case 27:
                     currentMoney -= 30;
                     break;
             }
@@ -147,7 +149,7 @@ public class GameEvent : MonoBehaviour
             UpdateDayText(); // 날짜 UI 업데이트
             UpdateHealthText(maxHealth); // 체력 UI 업데이트
             arbeitPositioner.DailyArbeitPositioner(); // 알바 랜덤 돌림
-
+            articleManager.SetRandomArticles(); //기사 랜덤 돌림림
             bedtoSleep.FadeOutWithMessage(); // 수면 효과
 
             PlayAudio(2);
@@ -166,6 +168,9 @@ public class GameEvent : MonoBehaviour
                 case 22:
                     calendarManager.UpdateDates();
                     calendarManager.SetTodo(3,"");
+                    break;
+                case 28:
+                    articleManager.SetSpecialArticle("빌려준돈 받는법","빌려준 돈을 받지 못하는 상황이라면\n정말 답답할 것이다.\n분명 빌려줄때는 별 생각이 없었는데\n빌려준 액수가 커질수록 주객전도가 되어\n자신이 돈을 빌린듯한 느낌이 든다.\n점점 시간은 흘러가는데 돈을 갚지 않으려고 한다면\n돌려받는 것은 쉽지 않을 것이다.\n어느정도 자료 준비를 한 이후\n신고를 하는 것이 좋다.");
                     break;
             }
         }
