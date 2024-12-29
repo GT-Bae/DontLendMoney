@@ -15,6 +15,7 @@ public class BedtoSleep : MonoBehaviour // Panel 불투명도 조절해 페이�
 {
     public GameObject panel; // 불투명도를 조절할 Panel 오브젝트
     public TextMeshProUGUI messageText; // 화면에 표시할 텍스트 UI 요소
+    public GameObject sleepUI;
     private Action onCompleteCallback; // FadeIn 또는 FadeOut 다음에 진행할 함수
 
     void Start()
@@ -43,7 +44,7 @@ public class BedtoSleep : MonoBehaviour // Panel 불투명도 조절해 페이�
     {
         panel.SetActive(true); // Panel 활성화
         messageText.gameObject.SetActive(true); // 메시지 텍스트 활성화
-        StartCoroutine(CoFadeOut()); //페이드아웃 시작작
+        StartCoroutine(CoFadeOut()); //페이드아웃 시작
     }
 
     public void FadeOutWithMessage()
@@ -51,6 +52,7 @@ public class BedtoSleep : MonoBehaviour // Panel 불투명도 조절해 페이�
         int today = PlayerPrefs.GetInt("CurrentDay",1);
         messageText.text = today + "일"; // 메시지 설정
         messageText.gameObject.SetActive(true); // 메시지 텍스트 활성화
+        sleepUI.SetActive(false); // sleepUI 비활성화
         FadeOut();
         StartCoroutine(WaitAndFadeIn(5f)); // 5초 후에 FadeIn 호출
     }
