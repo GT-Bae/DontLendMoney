@@ -25,4 +25,13 @@ public class MainTitleManager : MonoBehaviour
             SceneManager.sceneLoaded -= OnGameRoomLoaded; // 이벤트 핸들러 제거
         }
     }
+
+    public void QuitGame()
+    {
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false; // 에디터에서 플레이 모드 종료
+        #else
+            Application.Quit(); // 애플리케이션 종료
+        #endif
+    }
 }
