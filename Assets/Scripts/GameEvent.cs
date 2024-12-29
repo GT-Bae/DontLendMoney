@@ -56,10 +56,10 @@ public class GameEvent : MonoBehaviour
 
     public void PerformSleep()
     {
-        int currentDay = PlayerPrefs.GetInt("CurrentDay", 28); // 현재 날짜 가져오기
+        int currentDay = PlayerPrefs.GetInt("CurrentDay", 1); // 현재 날짜 가져오기
         if (currentDay > 0) // 날짜가 0 이상일 때만 진행
         {
-            currentDay--; // 날짜 감소
+            currentDay++; // 날짜 증가
             PlayerPrefs.SetInt("CurrentDay", currentDay); // 날짜 저장
 
             // 새 날을 시작
@@ -85,23 +85,23 @@ public class GameEvent : MonoBehaviour
 
     private void UpdateDayText()
     {
-        int currentDay = PlayerPrefs.GetInt("CurrentDay", 28); // 현재 날짜 가져오기
-        dayText.text = "D-" + currentDay; // 날짜 UI 업데이트
+        int currentDay = PlayerPrefs.GetInt("CurrentDay", 1); // 현재 날짜 가져오기
+        dayText.text = currentDay + "일"; // 날짜 UI 업데이트
     }
 
     private void UpdateMoneyText(float money)
     {
-        mymoneytext.text = "내 돈: " + money + "원"; // 내 돈 UI 업데이트
+        mymoneytext.text = "잔고: " + money + "만원"; // 내 돈 UI 업데이트
     }
 
     private void UpdateProgressText(float money)
     {
-        progressText.text = "진행 상황: " + money + "원"; // 진행 상황 UI 업데이트
+        progressText.text = "회수금: " + money + "만원"; // 진행 상황 UI 업데이트
     }
 
     private void UpdateFriendText(int friends)
     {
-        friendText.text = "친구 수: " + friends + " / " + maxFriends; // 친구 수 UI 업데이트
+        friendText.text = "친구: " + friends + " / " + maxFriends; // 친구 수 UI 업데이트
     }
 
     public void AddFriend()
