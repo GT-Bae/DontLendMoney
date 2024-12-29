@@ -13,7 +13,6 @@ public class GameEvent : MonoBehaviour
 
     private const int maxHealth = 3; // 최대 체력
     private const int maxFriends = 0; // 최대 친구 수
-
     private void Start()
     {
         UpdateDayText();
@@ -33,11 +32,12 @@ public class GameEvent : MonoBehaviour
     {
         int currentHealth = PlayerPrefs.GetInt("CurrentHealth", maxHealth);
         float currentMoney = PlayerPrefs.GetFloat("MyMoney", 10f);
-
-        if (currentHealth > 0)
+        int payValue = PlayerPrefs.GetInt("PayValue", 0);
+        int healthLossValue = PlayerPrefs.GetInt("HealthLossValue", 0);
+        if ((currentHealth - healthLossValue) >= 0)
         {
-            currentHealth--;
-            currentMoney += 10;
+            currentHealth -= healthLossValue;
+            currentMoney += payValue;
 
             PlayerPrefs.SetInt("CurrentHealth", currentHealth);
             PlayerPrefs.SetFloat("MyMoney", currentMoney);
@@ -46,7 +46,7 @@ public class GameEvent : MonoBehaviour
             UpdateHealthText(currentHealth);
             UpdateMoneyText(currentMoney);
             UpdateProgressText(currentMoney);
-            Debug.Log("알바를 완료했습니다. 체력 -1, 돈 +10만 원");
+            Debug.Log("알바를 완료했습니다. 체력 -" + healthLossValue + ", 돈 +" + payValue);
         }
         else
         {
@@ -57,7 +57,7 @@ public class GameEvent : MonoBehaviour
     public void PerformSleep()
     {
         int currentDay = PlayerPrefs.GetInt("CurrentDay", 1); // 현재 날짜 가져오기
-        if (currentDay > 0) // 날짜가 0 이상일 때만 진행
+        if (currentDay < 28) // 날짜가 0 이상일 때만 진행
         {
             currentDay++; // 날짜 증가
             PlayerPrefs.SetInt("CurrentDay", currentDay); // 날짜 저장
