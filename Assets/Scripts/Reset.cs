@@ -16,7 +16,10 @@ public class Reset : MonoBehaviour
         PlayerPrefs.SetFloat("MyMoney", 0); // 기본 돈
         PlayerPrefs.SetInt("CurrentHealth", 3); // 기본 체력
         PlayerPrefs.SetInt("CurrentFriends",0); // 기본 친구
-        PlayerPrefs.Save();
+        PlayerPrefs.SetInt("hasLoan",0);
+        PlayerPrefs.SetInt("Loan",0);
+        PlayerPrefs.SetInt("Report",0);
+        PlayerPrefs.Save();       
 
         // 이름으로 GameManager 오브젝트 찾기
         GameObject gameManagerObject = GameObject.Find("GameManager");
