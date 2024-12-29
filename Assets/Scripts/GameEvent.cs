@@ -44,11 +44,10 @@ public class GameEvent : MonoBehaviour
         gotoEnding = GetComponent<GotoEnding>();
         calendarManager = GetComponent<CalendarManager>();
         articleManager = GetComponent<ArticleManager>();
-        UpdateDayText();
-        UpdateHealthText(PlayerPrefs.GetInt("CurrentHealth", maxHealth));
-        UpdateMoneyText(PlayerPrefs.GetInt("MyMoney", 0));
-        UpdateRecoveryText(PlayerPrefs.GetInt("Recovery", 0));
-        UpdateFriendText(PlayerPrefs.GetInt("CurrentFriends", 0));
+
+        arbeitPositioner.DailyArbeitPositioner(); // 알바 랜덤 돌림
+
+        UpdateAllText();
     }
 
     public void UpdateAllText() { //모든 UI 업데이트
@@ -145,7 +144,7 @@ public class GameEvent : MonoBehaviour
                 if (currentDay <= 21){
                     currentMoney -= 3;
                 } else {
-                    currentMoney -= 45;
+                    currentMoney -= 15;
                 }                
             }
 
@@ -180,8 +179,8 @@ public class GameEvent : MonoBehaviour
                 case 22:
                     calendarManager.UpdateDates();
                     calendarManager.SetTodo(3,"");
-                    interest[0].text = "일일이자 15%";
-                    interest[1].text = "일일이자 15%";
+                    interest[0].text = "일일이자 5%";
+                    interest[1].text = "일일이자 5%";
                     break;
                 case 28:
                     articleManager.SetSpecialArticle("빌려준돈 받는법","빌려준 돈을 받지 못하는 상황이라면\n정말 답답할 것이다.\n분명 빌려줄때는 별 생각이 없었는데\n빌려준 액수가 커질수록 주객전도가 되어\n자신이 돈을 빌린듯한 느낌이 든다.\n점점 시간은 흘러가는데 돈을 갚지 않으려고 한다면\n돌려받는 것은 쉽지 않을 것이다.\n어느정도 자료 준비를 한 이후\n신고를 하는 것이 좋다.");
