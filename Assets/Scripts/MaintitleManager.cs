@@ -21,6 +21,11 @@ public class MainTitleManager : MonoBehaviour
                 {
                     resetScript.ResetValues();
                 }
+                GameEvent gameEvent = gameManager.GetComponent<GameEvent>();
+                if (gameEvent != null)
+                {
+                    gameEvent.FirstUIActive();
+                }
             }
             SceneManager.sceneLoaded -= OnGameRoomLoaded; // 이벤트 핸들러 제거
         }

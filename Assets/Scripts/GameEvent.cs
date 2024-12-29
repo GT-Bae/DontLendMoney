@@ -3,9 +3,11 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using Unity.Collections.LowLevel.Unsafe;
+using System.Collections.Generic;
 
 public class GameEvent : MonoBehaviour
 {
+    public GameObject firstUI; // 처음 실행시 활성화할 오브젝트트
     public GameObject jobComplete; // 알바 완료 시 생성할 프리팹
     public GameObject jobLowHealth; // 체력 부족 시 생성할 프리팹
     public Text healthText; // 체력 UI 텍스트
@@ -13,7 +15,13 @@ public class GameEvent : MonoBehaviour
     public Text mymoneytext; // 내 돈 UI 텍스트
     public Text recoveryText;  // 진행 상황 UI 텍스트
     public Text friendText; // 친구 수 UI 텍스트
-
+    public AudioSource audioSource; // AudioSource 컴포넌트를 연결
+    public List<AudioClip> audioClips; // 여러 AudioClip을 저장할 리스트
+    /*** 오디오
+    0: 돈소리
+    1: 경고소리
+    2: 잠
+    ***/
     private const int maxHealth = 3; // 최대 체력
     private const int maxFriends = 0; // 최대 친구 수
 
@@ -69,10 +77,12 @@ public class GameEvent : MonoBehaviour
             UpdateMoneyText(currentMoney);
             Debug.Log("알바를 완료했습니다. 체력 -" + healthLossValue + ", 돈 +" + payValue);
 
+            PlayAudio(0);
             Instantiate(jobComplete);
         }
         else
         {
+            PlayAudio(1);
             Instantiate(jobLowHealth);
             Debug.Log("체력이 부족하여 알바를 할 수 없습니다.");
         }
@@ -94,6 +104,7 @@ public class GameEvent : MonoBehaviour
             UpdateHealthText(maxHealth); // 체력 UI 업데이트
             arbeitPositioner.DailyArbeitPositioner(); // 알바 랜덤 돌림
 
+            PlayAudio(2);
             Debug.Log("하루가 지나갔습니다. 날짜 +1, 체력 회복");
         }
         else
@@ -165,5 +176,23 @@ public class GameEvent : MonoBehaviour
     private void OnApplicationQuit()
     {
         SaveGameData(); // 애플리케이션 종료 시 게임 데이터 저장
+    }
+
+    public void FirstUIActive() {
+        firstUI.SetActive(true);
+    }
+
+    public void PlayAudio(int index) // 오디오 재생
+    {
+        if (index >= 0 && index < audioClips.Count)
+        {
+            audioSource.clip = audioClips[index];
+            audioSource.Play();
+            Debug.Log("오디오가 재생되었습니다: " + audioClips[index].name);
+        }
+        else
+        {
+            Debug.LogError("잘못된 인덱스입니다: " + index);
+        }
     }
 }
