@@ -102,8 +102,42 @@ public class GameEvent : MonoBehaviour
     public void PerformSleep()
     {
         int currentDay = PlayerPrefs.GetInt("CurrentDay", 1); // 현재 날짜 가져오기
+        int currentMoney = PlayerPrefs.GetInt("MyMoney", 0);
         if (currentDay < 28) // 마지막날이면 엔딩으로
         {
+            // 돈 빠지는거
+            switch (currentDay) {
+                case 2:
+                    currentMoney -= 10;
+                    break;
+                case 9:
+                    currentMoney -= 10;
+                    break;
+                case 10:
+                    currentMoney -= 30;
+                    break;
+                case 14:
+                    currentMoney -= 30;
+                    break;
+                case 16:
+                    currentMoney -= 10;
+                    break;
+                case 18:
+                    currentMoney -= 50;
+                    break;
+                case 21:
+                    currentMoney -= 30;
+                    break;
+                case 23:
+                    currentMoney -= 10;
+                    break;
+                case 28:
+                    currentMoney -= 30;
+                    break;
+            }
+            PlayerPrefs.SetInt("MyMoney", currentMoney);
+            UpdateMoneyText(currentMoney);
+
             currentDay++; // 날짜 증가
             PlayerPrefs.SetInt("CurrentDay", currentDay); // 날짜 저장
             PlayerPrefs.SetInt("CurrentHealth", maxHealth); // 최대 체력으로 복원
