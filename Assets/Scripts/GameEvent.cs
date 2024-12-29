@@ -31,13 +31,15 @@ public class GameEvent : MonoBehaviour
 
     private ArbeitPositioner arbeitPositioner; // 알바 설정 스크립트
     private BedtoSleep bedtoSleep; // 수면 효과 스크립트
-    private GotoEnding gotoEnding; // 엔딩 스크립트트
+    private GotoEnding gotoEnding; // 엔딩 스크립트
+    private CalendarManager calendarManager; // 엔딩 스크립트
     private void Start()
     {
         // 같은 오브젝트에 있는 ArbeitPositioner 컴포넌트를 가져옴
         arbeitPositioner = GetComponent<ArbeitPositioner>();
         bedtoSleep = GetComponent<BedtoSleep>();
         gotoEnding = GetComponent<GotoEnding>();
+        calendarManager = GetComponent<CalendarManager>();
         UpdateDayText();
         UpdateHealthText(PlayerPrefs.GetInt("CurrentHealth", maxHealth));
         UpdateMoneyText(PlayerPrefs.GetInt("MyMoney", 0));
@@ -115,7 +117,23 @@ public class GameEvent : MonoBehaviour
             bedtoSleep.FadeOutWithMessage(); // 수면 효과
 
             PlayAudio(2);
-            Debug.Log("하루가 지나갔습니다. 날짜 +1, 체력 회복");
+            
+            // 달력 업데이트
+            switch (currentDay) {
+                case 8:
+                    calendarManager.UpdateDates();
+                    calendarManager.SetTodo(2,"생활비\n-30만원");
+                    break;
+                case 15:
+                    calendarManager.UpdateDates();
+                    calendarManager.SetTodo(2,"");
+                    calendarManager.SetTodo(3,"월세\n-50만원");
+                    break;
+                case 22:
+                    calendarManager.UpdateDates();
+                    calendarManager.SetTodo(3,"");
+                    break;
+            }
         }
         else
         {
