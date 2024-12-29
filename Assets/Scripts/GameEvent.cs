@@ -30,6 +30,11 @@ public class GameEvent : MonoBehaviour
         Debug.Log("게임 데이터가 저장되었습니다.");
     }
 
+    public void TestHealthIncrease() {
+        PlayerPrefs.SetInt("CurrentHealth", maxHealth);
+        UpdateHealthText(maxHealth); // 체력 UI 업데이트
+    }
+
     public void PerformAlba()
     {
         int currentHealth = PlayerPrefs.GetInt("CurrentHealth", maxHealth);
