@@ -55,7 +55,7 @@ public class BedtoSleep : MonoBehaviour // Panel 불투명도 조절해 페이�
         messageText.gameObject.SetActive(true); // 메시지 텍스트 활성화
         sleepUI.SetActive(false); // sleepUI 비활성화
         FadeOut();
-        StartCoroutine(WaitAndFadeIn(5f)); // 5초 후에 FadeIn 호출
+        StartCoroutine(WaitAndFadeIn(4f)); // 4초 후에 FadeIn 호출
     }
 
     IEnumerator CoFadeIn()

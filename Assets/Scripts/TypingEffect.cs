@@ -5,8 +5,9 @@ using System.Collections;
 public class TypingEffect : MonoBehaviour
 {
     private TMP_Text uiText;
-    public string fullText;
+    private string fullText;
     private string currentText = "";
+    public AudioSource typingSound;
 
     void Awake()
     {
@@ -25,6 +26,7 @@ public class TypingEffect : MonoBehaviour
         {
             currentText = fullText.Substring(0, i);
             uiText.text = currentText;
+            typingSound.Play();
             yield return new WaitForSeconds(0.1f);
         }
     }
