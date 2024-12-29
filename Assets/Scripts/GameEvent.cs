@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameEvent : MonoBehaviour
 {
+    public GameObject jobComplete; // 알바 완료 시 생성할 프리팹
+    public GameObject jobLowHealth; // 체력 부족 시 생성할 프리팹
     public Text healthText; // 체력 UI 텍스트
     public Text dayText; // 현재 날짜 UI 텍스트
     public Text mymoneytext; // 내 돈 UI 텍스트
@@ -47,9 +49,12 @@ public class GameEvent : MonoBehaviour
             UpdateMoneyText(currentMoney);
             UpdateProgressText(currentMoney);
             Debug.Log("알바를 완료했습니다. 체력 -" + healthLossValue + ", 돈 +" + payValue);
+
+            Instantiate(jobComplete);
         }
         else
         {
+            Instantiate(jobLowHealth);
             Debug.Log("체력이 부족하여 알바를 할 수 없습니다.");
         }
     }
