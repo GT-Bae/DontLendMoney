@@ -21,15 +21,23 @@ public class GameEvent : MonoBehaviour
     0: 돈소리
     1: 경고소리
     2: 잠
+    3: 침대 효과음
+    4: 엔딩
     ***/
+
+    public AudioSource specificAudioSource; // BGM 틀어주는 오브젝트
     private const int maxHealth = 3; // 최대 체력
     private const int maxFriends = 0; // 최대 친구 수
 
     private ArbeitPositioner arbeitPositioner; // 알바 설정 스크립트
+    private BedtoSleep bedtoSleep; // 수면 효과 스크립트
+    private GotoEnding gotoEnding; // 엔딩 스크립트트
     private void Start()
     {
         // 같은 오브젝트에 있는 ArbeitPositioner 컴포넌트를 가져옴
         arbeitPositioner = GetComponent<ArbeitPositioner>();
+        bedtoSleep = GetComponent<BedtoSleep>();
+        gotoEnding = GetComponent<GotoEnding>();
         UpdateDayText();
         UpdateHealthText(PlayerPrefs.GetInt("CurrentHealth", maxHealth));
         UpdateMoneyText(PlayerPrefs.GetInt("MyMoney", 0));
@@ -104,11 +112,16 @@ public class GameEvent : MonoBehaviour
             UpdateHealthText(maxHealth); // 체력 UI 업데이트
             arbeitPositioner.DailyArbeitPositioner(); // 알바 랜덤 돌림
 
+            bedtoSleep.FadeOutWithMessage(); // 수면 효과
+
             PlayAudio(2);
             Debug.Log("하루가 지나갔습니다. 날짜 +1, 체력 회복");
         }
         else
         {
+            specificAudioSource.Stop();
+            PlayAudio(4);
+            gotoEnding.endSetting();
             Debug.Log("엔딩으로 가기");
         }
     }
