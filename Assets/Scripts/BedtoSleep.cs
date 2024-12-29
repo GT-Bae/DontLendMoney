@@ -54,6 +54,8 @@ public class BedtoSleep : MonoBehaviour // Panel 불투명도 조절해 페이�
         messageText.gameObject.SetActive(true); // 메시지 텍스트 활성화
         sleepUI.SetActive(false); // sleepUI 비활성화
         FadeOut();
+        AudioSource SleepSound = GetComponent<AudioSource>();
+        SleepSound.Play();
         StartCoroutine(WaitAndFadeIn(5f)); // 5초 후에 FadeIn 호출
     }
 
