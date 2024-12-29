@@ -16,8 +16,12 @@ public class GameEvent : MonoBehaviour
 
     private const int maxHealth = 3; // 최대 체력
     private const int maxFriends = 0; // 최대 친구 수
+
+    private ArbeitPositioner arbeitPositioner; // 알바 설정 스크립트
     private void Start()
     {
+        // 같은 오브젝트에 있는 ArbeitPositioner 컴포넌트를 가져옴
+        arbeitPositioner = GetComponent<ArbeitPositioner>();
         UpdateDayText();
         UpdateHealthText(PlayerPrefs.GetInt("CurrentHealth", maxHealth));
         UpdateMoneyText(PlayerPrefs.GetInt("MyMoney", 0));
@@ -82,14 +86,13 @@ public class GameEvent : MonoBehaviour
         {
             currentDay++; // 날짜 증가
             PlayerPrefs.SetInt("CurrentDay", currentDay); // 날짜 저장
-
-            // 새 날을 시작
-            //PlayerPrefs.SetInt("NewDay", 1); // NewDay 값을 1로 설정
             PlayerPrefs.SetInt("CurrentHealth", maxHealth); // 최대 체력으로 복원
-            SaveGameData(); // 게임 데이터 저장
+            //PlayerPrefs.SetInt("NewDay", 1); // NewDay 값을 1로 설정
 
+            SaveGameData(); // 게임 데이터 저장
             UpdateDayText(); // 날짜 UI 업데이트
             UpdateHealthText(maxHealth); // 체력 UI 업데이트
+            arbeitPositioner.DailyArbeitPositioner(); // 알바 랜덤 돌림
 
             Debug.Log("하루가 지나갔습니다. 날짜 +1, 체력 회복");
         }

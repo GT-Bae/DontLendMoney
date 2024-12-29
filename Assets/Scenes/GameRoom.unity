@@ -1727,7 +1727,6 @@ GameObject:
   - component: {fileID: 401416744}
   - component: {fileID: 401416743}
   - component: {fileID: 401416742}
-  - component: {fileID: 401416740}
   m_Layer: 5
   m_Name: Test
   m_TagString: Untagged
@@ -1755,20 +1754,6 @@ RectTransform:
   m_AnchoredPosition: {x: -256.13257, y: -134.23196}
   m_SizeDelta: {x: 219.6686, y: 111.8313}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &401416740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 401416738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0edc2669c6b00ae439aa25db7f05f3fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jobInfoPrefab: {fileID: 9184412461565845785, guid: 6c87d84d5207fe849bfc74aabd876d75, type: 3}
-  parentTransform: {fileID: 302506432}
 --- !u!114 &401416742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1816,18 +1801,6 @@ MonoBehaviour:
       - m_Target: {fileID: 688444813}
         m_TargetAssemblyTypeName: GameEvent, Assembly-CSharp
         m_MethodName: TestHealthIncrease
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 401416740}
-        m_TargetAssemblyTypeName: ArbeitPositioner, Assembly-CSharp
-        m_MethodName: DailyArbeitPositioner
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
