@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class restart : MonoBehaviour
 {
-    public Button resetButton; // ÃÊ±âÈ­ ¹öÆ°
+    public Button resetButton; // ì´ˆê¸°í™” ë²„íŠ¼
 
     private void Start()
     {
@@ -14,13 +14,13 @@ public class restart : MonoBehaviour
 
     void ResetProgress()
     {
-        // GIMSEONGYUN µ¥ÀÌÅÍ ÃÊ±âÈ­
-        PlayerPrefs.DeleteKey("ChatEndIndex"); // ÁøÇà »óÅÂ ÃÊ±âÈ­
-        PlayerPrefs.DeleteKey("Button1Clicked"); // ¹öÆ° 1 »óÅÂ ÃÊ±âÈ­
-        PlayerPrefs.DeleteKey("Button2Clicked"); // ¹öÆ° 2 »óÅÂ ÃÊ±âÈ­
-        PlayerPrefs.DeleteKey("BorrowedDay"); // ºô¸° ³¯Â¥ ÃÊ±âÈ­
+        // GIMSEONGYUN ë°ì´í„° ì´ˆê¸°í™”
+        PlayerPrefs.DeleteKey("ChatEndIndex"); // ì±„íŒ… ì¢…ë£Œ ì¸ë±ìŠ¤ ì´ˆê¸°í™”
+        PlayerPrefs.DeleteKey("Button1Clicked"); // ë²„íŠ¼ 1 í´ë¦­ ì´ˆê¸°í™”
+        PlayerPrefs.DeleteKey("Button2Clicked"); // ë²„íŠ¼ 2 í´ë¦­ ì´ˆê¸°í™”
+        PlayerPrefs.DeleteKey("BorrowedDay"); // ë¹Œë¦° ë‚ ì§œ ì´ˆê¸°í™”
 
-        // ±âÅ¸ Ä³¸¯ÅÍº° µ¥ÀÌÅÍ ÃÊ±âÈ­
+        // ë‹¤ë¥¸ ìºë¦­í„°ë³„ ë°ì´í„° ì´ˆê¸°í™”
         ResetChatingData("BAKSIYUN");
         ResetChatingData("LEEJEONGMAN");
         ResetChatingData("GIMSIHYEON");
@@ -33,31 +33,34 @@ public class restart : MonoBehaviour
         ResetChatingData("BAKYEONJI");
         ResetChatingData("CHOIGYEONGMIN");
 
-        PlayerPrefs.DeleteKey("CurrentDay"); // ³¯Â¥ ÃÊ±âÈ­
-        PlayerPrefs.DeleteKey("MyMoney"); // ±İ¾× ÃÊ±âÈ­
-        PlayerPrefs.DeleteKey("CurrentHealth"); // Ã¼·Â ÃÊ±âÈ­
-        PlayerPrefs.DeleteKey("SelectedIndices"); // ChatManager ¹öÆ° »óÅÂ ÃÊ±âÈ­
-        PlayerPrefs.DeleteKey("DisplayedUsers"); // Ç¥½ÃµÈ »ç¿ëÀÚ »óÅÂ ÃÊ±âÈ­
+        PlayerPrefs.DeleteKey("CurrentDay"); // í˜„ì¬ ë‚ ì§œ ì´ˆê¸°í™”
+        PlayerPrefs.DeleteKey("MyMoney"); // ëˆ ì´ˆê¸°í™”
+        PlayerPrefs.DeleteKey("CurrentHealth"); // ì²´ë ¥ ì´ˆê¸°í™”
+        PlayerPrefs.DeleteKey("SelectedIndices"); // ChatManager ë²„íŠ¼ ì„ íƒ ì´ˆê¸°í™”
+        PlayerPrefs.DeleteKey("DisplayedUsers"); // í‘œì‹œëœ ì‚¬ìš©ì ëª©ë¡ ì´ˆê¸°í™”
+        PlayerPrefs.DeleteKey("PayValue"); // ì•Œë°” ìˆ˜ë‹¹
+        PlayerPrefs.DeleteKey("HealthLossValue"); // ì•Œë°” ì²´ë ¥
+        PlayerPrefs.DeleteKey("ArbeitName"); // ì•Œë°” ì´ë¦„
 
-        // ±âº» °ª ¼³Á¤
-        PlayerPrefs.SetInt("CurrentDay", 28); // ±âº» ³¯Â¥
-        PlayerPrefs.SetFloat("MyMoney", 0); // ±âº» ±İ¾×
-        PlayerPrefs.SetInt("CurrentHealth", 0); // ±âº» Ã¼·Â
+        // ê¸°ë³¸ ê°’ ì„¤ì •
+        PlayerPrefs.SetInt("CurrentDay", 28); // ê¸°ë³¸ ë‚ ì§œ
+        PlayerPrefs.SetFloat("MyMoney", 0); // ê¸°ë³¸ ëˆ
+        PlayerPrefs.SetInt("CurrentHealth", 0); // ê¸°ë³¸ ì²´ë ¥
 
-        // Ã¹ ³¯ ½ÇÇà ÇÃ·¡±× ¼³Á¤
-        PlayerPrefs.SetInt("NewDay", 1); // NewDay ÇÃ·¡±×¸¦ true·Î ¼³Á¤
+        // ì²« ë‚  í‘œì‹œ í”Œë˜ê·¸ ì„¤ì •
+        PlayerPrefs.SetInt("NewDay", 1); // NewDay í”Œë˜ê·¸ë¥¼ trueë¡œ ì„¤ì •
 
         PlayerPrefs.Save();
 
-        Debug.Log("¸ğµç µ¥ÀÌÅÍ°¡ ÃÊ±âÈ­µÇ¾ú½À´Ï´Ù.");
+        Debug.Log("ëª¨ë“  ë°ì´í„°ê°€ ì´ˆê¸°í™”ë˜ì—ˆìŠµë‹ˆë‹¤.");
         SceneManager.LoadScene("GameRoom");
     }
 
     void ResetChatingData(string characterPrefix)
     {
-        PlayerPrefs.DeleteKey($"ChatEndIndex_{characterPrefix}"); // ÁøÇà »óÅÂ ÃÊ±âÈ­
-        PlayerPrefs.DeleteKey($"Button1Clicked_{characterPrefix}"); // ¹öÆ° 1 »óÅÂ ÃÊ±âÈ­
-        PlayerPrefs.DeleteKey($"Button2Clicked_{characterPrefix}"); // ¹öÆ° 2 »óÅÂ ÃÊ±âÈ­
-        PlayerPrefs.DeleteKey($"BorrowedDay_{characterPrefix}"); // ºô¸° ³¯Â¥ ÃÊ±âÈ­
+        PlayerPrefs.DeleteKey($"ChatEndIndex_{characterPrefix}"); // ì±„íŒ… ì¢…ë£Œ ì¸ë±ìŠ¤ ì´ˆê¸°í™”
+        PlayerPrefs.DeleteKey($"Button1Clicked_{characterPrefix}"); // ë²„íŠ¼ 1 í´ë¦­ ì´ˆê¸°í™”
+        PlayerPrefs.DeleteKey($"Button2Clicked_{characterPrefix}"); // ë²„íŠ¼ 2 í´ë¦­ ì´ˆê¸°í™”
+        PlayerPrefs.DeleteKey($"BorrowedDay_{characterPrefix}"); // ë¹Œë¦° ë‚ ì§œ ì´ˆê¸°í™”
     }
 }
