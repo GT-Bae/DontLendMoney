@@ -30,10 +30,10 @@ public class NameListPositioner : MonoBehaviour
 
     private void Start()
     {
-        GeneratePrefabs();
+        GenerateRandomPrefabs(3);
     }
 
-    void GeneratePrefabs()
+    public void GeneratePrefab(int i)
     {
         if (prefab == null || contentTransform == null)
         {
@@ -43,46 +43,55 @@ public class NameListPositioner : MonoBehaviour
 
         // 이름 리스트 랜덤 섞기
         ShuffleList(randomNameList);
+        
+        GameObject newPrefab = Instantiate(prefab, contentTransform); // Content에 추가
 
-        for (int i = 0; i < staticNameList.Count; i++) 
+        // "Name"이라는 TextMeshProUGUI 컴포넌트에 이름 표시
+        var nameText = newPrefab.transform.Find("Name")?.GetComponent<TextMeshProUGUI>();
+        if (nameText != null)
         {
-            GameObject newPrefab = Instantiate(prefab, contentTransform); // Content에 추가
-            newPrefab.name = staticNameList[i]; // staticNameList의 이름 사용
-
-            // "Name"이라는 TextMeshProUGUI 컴포넌트에 이름 표시
-            var nameText = newPrefab.transform.Find("Name")?.GetComponent<TextMeshProUGUI>();
-            if (nameText != null)
-            {
-                nameText.text = staticNameList[i];
-            }
-            else
-            {
-                Debug.LogError($"{newPrefab.name} 프리팹에 TMP가 없습니다.");
-            }
-
-            var profile = newPrefab.transform.Find("Profile")?.GetComponent<Image>();
-            if (profile != null)
-            {
-                profile.sprite = profileImages[i];
-            }
+            nameText.text = staticNameList[i];
+        }
+        else
+        {
+            Debug.LogError($"{newPrefab.name} 프리팹에 TMP가 없습니다.");
         }
 
-        // 이름 리스트에 따라 Prefab 생성
-        foreach (var name in randomNameList)
+        var profile = newPrefab.transform.Find("Profile")?.GetComponent<Image>();
+        if (profile != null)
         {
+            profile.sprite = profileImages[i];
+        }
+    }
+
+    public void GenerateRandomPrefabs(int count)
+    {
+        // 기존 프리팹 제거
+        foreach (Transform child in contentTransform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        List<string> selectedNames = new List<string>(randomNameList);
+        ShuffleList(selectedNames);
+        for (int i = 0; i < count; i++)
+        {
+            string selectedName = selectedNames[i];
             GameObject newPrefab = Instantiate(prefab, contentTransform); // Content에 추가
-            newPrefab.name = name;
 
             // "Name"이라는 TextMeshProUGUI 컴포넌트에 이름 표시
             var nameText = newPrefab.transform.Find("Name")?.GetComponent<TextMeshProUGUI>();
             if (nameText != null)
             {
-                nameText.text = name;
+                nameText.text = selectedName;
             }
             else
             {
                 Debug.LogError($"{newPrefab.name} 프리팹에 TMP가 없습니다.");
             }
+
+            // 선택된 이름을 randomNameList에서 제거
+            randomNameList.Remove(selectedName);
         }
     }
 

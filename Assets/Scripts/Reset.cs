@@ -4,21 +4,17 @@ public class Reset : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void ResetValues() {
-        // 값 삭제
-        PlayerPrefs.DeleteKey("SelectedIndices"); // ChatManager 버튼 선택
-        PlayerPrefs.DeleteKey("DisplayedUsers"); // 표시된 사용자 목록
-        PlayerPrefs.DeleteKey("PayValue"); // 알바 수당
-        PlayerPrefs.DeleteKey("HealthLossValue"); // 알바 체력
-        PlayerPrefs.DeleteKey("ArbeitName"); // 알바 이름
-
         // 기본 값 설정
         PlayerPrefs.SetInt("CurrentDay", 0); // 기본 날짜
-        PlayerPrefs.SetFloat("MyMoney", 0); // 기본 돈
+        PlayerPrefs.SetInt("MyMoney", 1000); // 기본 돈
         PlayerPrefs.SetInt("CurrentHealth", 3); // 기본 체력
         PlayerPrefs.SetInt("CurrentFriends",0); // 기본 친구
+        PlayerPrefs.SetInt("MaxHealth",3);
+        PlayerPrefs.SetInt("MaxFriends",0);
         PlayerPrefs.SetInt("hasLoan",0);
         PlayerPrefs.SetInt("Loan",0);
         PlayerPrefs.SetInt("Report",0);
+        PlayerPrefs.SetInt("Recovery",0);
         PlayerPrefs.Save();       
 
         // 이름으로 GameManager 오브젝트 찾기

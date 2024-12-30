@@ -469,11 +469,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollView: {fileID: 2920145350698156313}
-  optionsUI: {fileID: 2340038442424122195, guid: 407cf23f96a2fc94c89d213b0309e277, type: 3}
+  optionsUIPrefab: {fileID: 2340038442424122195, guid: 407cf23f96a2fc94c89d213b0309e277, type: 3}
   content: {fileID: 6839168510483668229}
-  chatBoxPrefab: {fileID: 59365927296273895, guid: 25f1b5ceffcd3e04e8024970ae941fd9, type: 3}
+  otherChatPrefab: {fileID: 59365927296273895, guid: 25f1b5ceffcd3e04e8024970ae941fd9, type: 3}
+  myChatPrefab: {fileID: 1582665636933328018, guid: d51baa67021c9e2468ae6cf717e1263a, type: 3}
   optionsHeight: 300
+  warningLowMoney: {fileID: 8082360927165943551, guid: 046bd4284d13b8e44b53dba579a1c134, type: 3}
   chatNameText: {fileID: 4421272912003020823}
+  profiles:
+  - {fileID: -5492317307538232701, guid: 6480505a34b547f4880fbe51ff76aa22, type: 3}
+  - {fileID: 7604604692442229997, guid: 804aad2128662594c9f8946b0e23f6f6, type: 3}
+  - {fileID: 2781921886299178611, guid: 00bccb29b517fb14188e0b19776a3317, type: 3}
 --- !u!1 &4731923516060631458
 GameObject:
   m_ObjectHideFlags: 0
