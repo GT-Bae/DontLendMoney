@@ -13,6 +13,7 @@ using TMPro;
 
 public class BedtoSleep : MonoBehaviour // Panel 불투명도 조절해 페이드인 or 페이드아웃
 {
+    private GameEvent gameEvent; 
     public GameObject panel; // 불투명도를 조절할 Panel 오브젝트
     public TextMeshProUGUI messageText; // 화면에 표시할 텍스트 UI 요소
     public GameObject sleepUI;
@@ -21,6 +22,7 @@ public class BedtoSleep : MonoBehaviour // Panel 불투명도 조절해 페이�
 
     void Start()
     {
+        gameEvent = GetComponent<GameEvent>();
         if (!panel)
         {
             Debug.LogError("Panel 오브젝트를 찾을 수 없습니다.");
@@ -59,7 +61,8 @@ public class BedtoSleep : MonoBehaviour // Panel 불투명도 조절해 페이�
     }
 
     IEnumerator CoFadeIn()
-    {
+    {   
+        gameEvent.DecreaseDaysAndCheckEvents(); // 갚는거 리스트
         float elapsedTime = 0f; // 누적 경과 시간
         float fadedTime = 0.5f; // 총 소요 시간
 

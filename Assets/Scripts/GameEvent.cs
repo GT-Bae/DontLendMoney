@@ -5,6 +5,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using Unity.Collections.LowLevel.Unsafe;
 using System.Collections.Generic;
+using System.Data.Common;
 
 public class GameEvent : MonoBehaviour
 {
@@ -26,16 +27,21 @@ public class GameEvent : MonoBehaviour
     4: 엔딩
     ***/
 
+    public Transform verticalView; // VerticalView의 Transform
+    public GameObject returnPrefab;
+
+    private List<(string name, int loanAmount, int remainDate)> loanList = new List<(string, int, int)>();
     public AudioSource specificAudioSource; // BGM 틀어주는 오브젝트
     public List<TMP_Text> interest;
-    private const int maxHealth = 3; // 최대 체력
-    private const int maxFriends = 0; // 최대 친구 수
+    private int maxHealth = 3; // 최대 체력
+    private int maxFriends = 0; // 최대 친구 수
 
     private ArbeitPositioner arbeitPositioner; // 알바 설정 스크립트
     private BedtoSleep bedtoSleep; // 수면 효과 스크립트
     private GotoEnding gotoEnding; // 엔딩 스크립트
     private CalendarManager calendarManager; // 엔딩 스크립트
     private ArticleManager articleManager; // 기사 스크립트
+    private NameListPositioner nameListPositioner; // 랜덤 친구 등
     private void Start()
     {
         // 같은 오브젝트에 있는 ArbeitPositioner 컴포넌트를 가져옴
@@ -44,13 +50,14 @@ public class GameEvent : MonoBehaviour
         gotoEnding = GetComponent<GotoEnding>();
         calendarManager = GetComponent<CalendarManager>();
         articleManager = GetComponent<ArticleManager>();
-
+        nameListPositioner = GetComponent<NameListPositioner>();
         arbeitPositioner.DailyArbeitPositioner(); // 알바 랜덤 돌림
 
         UpdateAllText();
     }
 
     public void UpdateAllText() { //모든 UI 업데이트
+        maxHealth = PlayerPrefs.GetInt("MaxHealth");
         UpdateDayText();
         UpdateHealthText(PlayerPrefs.GetInt("CurrentHealth", maxHealth));
         UpdateMoneyText(PlayerPrefs.GetInt("MyMoney", 0));
@@ -95,7 +102,6 @@ public class GameEvent : MonoBehaviour
         }
         else
         {
-            PlayAudio(1);
             Instantiate(jobLowHealth);
             Debug.Log("체력이 부족하여 알바를 할 수 없습니다.");
         }
@@ -160,8 +166,9 @@ public class GameEvent : MonoBehaviour
             UpdateDayText(); // 날짜 UI 업데이트
             UpdateHealthText(maxHealth); // 체력 UI 업데이트
             arbeitPositioner.DailyArbeitPositioner(); // 알바 랜덤 돌림
-            articleManager.SetRandomArticles(); //기사 랜덤 돌림림
+            articleManager.SetRandomArticles(); //기사 랜덤 돌림
             bedtoSleep.FadeOutWithMessage(); // 수면 효과
+            nameListPositioner.GenerateRandomPrefabs(3); // 랜덤 메시지
 
             PlayAudio(2);
             
@@ -170,6 +177,7 @@ public class GameEvent : MonoBehaviour
                 case 8:
                     calendarManager.UpdateDates();
                     calendarManager.SetTodo(2,"생활비\n-30만원");
+                    calendarManager.SetTodo(5,"악마\n-30만원");
                     break;
                 case 15:
                     calendarManager.UpdateDates();
@@ -186,6 +194,58 @@ public class GameEvent : MonoBehaviour
                     articleManager.SetSpecialArticle("빌려준돈 받는법","빌려준 돈을 받지 못하는 상황이라면\n정말 답답할 것이다.\n분명 빌려줄때는 별 생각이 없었는데\n빌려준 액수가 커질수록 주객전도가 되어\n자신이 돈을 빌린듯한 느낌이 든다.\n점점 시간은 흘러가는데 돈을 갚지 않으려고 한다면\n돌려받는 것은 쉽지 않을 것이다.\n어느정도 자료 준비를 한 이후\n신고를 하는 것이 좋다.");
                     break;
             }
+
+            // 스토리 진행
+            switch (currentDay) {
+                case 1:
+                    nameListPositioner.GeneratePrefab(1);
+                    nameListPositioner.GeneratePrefab(0);
+                    break;
+                case 2:
+                    nameListPositioner.GeneratePrefab(2);
+                    break;
+                case 3:
+                    nameListPositioner.GeneratePrefab(1);
+                    break;
+                case 4:
+                    nameListPositioner.GeneratePrefab(2);
+                    break;
+                case 5:
+                    nameListPositioner.GeneratePrefab(0);
+                    break;
+                case 6:
+                    nameListPositioner.GeneratePrefab(1);
+                    break;
+                case 7:
+                    nameListPositioner.GeneratePrefab(2);
+                    break;
+                case 8:
+                    nameListPositioner.GeneratePrefab(0);
+                    break;
+                case 10:
+                    nameListPositioner.GeneratePrefab(2);
+                    break;
+                case 13:
+                    nameListPositioner.GeneratePrefab(2);
+                    break;
+                case 15:
+                    nameListPositioner.GeneratePrefab(1);
+                    nameListPositioner.GeneratePrefab(0);
+                    break;
+                case 16:
+                    nameListPositioner.GeneratePrefab(2);
+                    break;
+                case 19:
+                    nameListPositioner.GeneratePrefab(2);
+                    break;
+                case 22:
+                    nameListPositioner.GeneratePrefab(2);
+                    nameListPositioner.GeneratePrefab(0);
+                    break;
+                case 28:
+                    nameListPositioner.GeneratePrefab(0);
+                    break;
+            }
         }
         else
         {
@@ -197,9 +257,8 @@ public class GameEvent : MonoBehaviour
     }
 
     /*** 회수금 ***/
-    public void ReceiveRecovery() {
+    public void ReceiveRecovery(int returnAmount) {
         int currentRecovery = PlayerPrefs.GetInt("Recovery", 0); // 현재 회수금
-        int returnAmount = PlayerPrefs.GetInt("Return", 0); // 친구가 주는 회수금
 
         currentRecovery += returnAmount; // 회수금에 더하기
         PlayerPrefs.SetInt("Recovery", currentRecovery); // 회수금 저장
@@ -253,6 +312,7 @@ public class GameEvent : MonoBehaviour
 
     private void UpdateFriendText(int friends)
     {
+        maxFriends = PlayerPrefs.GetInt("MaxFriends",0);
         friendText.text = "친구: " + friends + " / " + maxFriends; // 친구 수 UI 업데이트
     }
 
@@ -278,4 +338,62 @@ public class GameEvent : MonoBehaviour
             Debug.LogError("잘못된 인덱스입니다: " + index);
         }
     }
+
+    public void AddToList(string name, int loanAmount, int remainDate)
+    {
+        loanList.Add((name, loanAmount, remainDate));
+        Debug.Log($"Added to list: {name}, {loanAmount}, {remainDate}");
+    }
+    public void DecreaseDaysAndCheckEvents()
+    {
+        for (int i = 0; i < loanList.Count; i++)
+        {
+            var item = loanList[i];
+            item.remainDate--;
+
+            if (item.remainDate <= 0)
+            {
+                TriggerEvent(item);
+                loanList.RemoveAt(i);
+                i--; // 리스트에서 항목을 제거했으므로 인덱스 조정
+            }
+            else
+            {
+                loanList[i] = item; // 업데이트된 값을 리스트에 다시 저장
+            }
+        }
+    }
+
+    private void TriggerEvent((string name, int loanValue, int remainDay) item)
+    {
+        float randomValue = Random.value;
+        if (randomValue < 0.7f) { // 변제
+            int currentMoney = PlayerPrefs.GetInt("MyMoney",0);
+            PlayerPrefs.SetInt("MyMoney",currentMoney+item.loanValue);
+            ReceiveRecovery(item.loanValue);
+            UpdateAllText();
+            spawnReturnPrefab(item.name,"은 ",item.loanValue,"만원을 변제하였습니다.");
+            Debug.Log($"{item.name}은 변제하였습니다.");
+        } else if (Random.value < 0.5f) { // 이자
+            int currentMoney = PlayerPrefs.GetInt("MyMoney",0);
+            item.loanValue *= 125;
+            item.loanValue /= 100;
+            PlayerPrefs.SetInt("MyMoney",currentMoney+item.loanValue);
+            ReceiveRecovery(item.loanValue);
+            UpdateAllText();
+            spawnReturnPrefab(item.name,"은 이자 보태서",item.loanValue,"만원을 변제하였습니다.");
+            Debug.Log($"{item.name}은 이자를 냈습니다.");
+        } else { // 잠적
+            spawnReturnPrefab(item.name,"은 ",item.loanValue,"만원을 들고 잠적했습니다.");
+            Debug.Log($"{item.name}은 잠적하였습니다.");
+        }
+    }
+
+    private void spawnReturnPrefab(string str1, string str2, int money, string str3) {
+        GameObject newPrefab = Instantiate(returnPrefab, verticalView);
+        TMP_Text returnText = newPrefab.transform.Find("ReturnText").GetComponent<TMP_Text>();
+        returnText.text = $"{str1} {str2} {money} {str3}";
+    }
 }
+
+
