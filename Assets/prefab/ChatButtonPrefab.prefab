@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 5742665058727214333}
   - component: {fileID: 1184241095599205183}
   - component: {fileID: 6352979555057304210}
+  - component: {fileID: 4288328091014094074}
+  - component: {fileID: 148180331294143263}
   m_Layer: 5
   m_Name: ChatButtonPrefab
   m_TagString: Untagged
@@ -123,18 +125,56 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 148180331294143263}
+        m_TargetAssemblyTypeName: InstateSomething, Assembly-CSharp
+        m_MethodName: instateSomething
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4288328091014094074}
+        m_TargetAssemblyTypeName: ChatListItem, Assembly-CSharp
+        m_MethodName: OnChatListItemClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4288328091014094074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318161187498268987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40deae08176872241827aa45e7a2d3aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dmUIPrefab: {fileID: 4613212242239578017, guid: f294247f85fcb3241ba3f034572815dc, type: 3}
+--- !u!114 &148180331294143263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318161187498268987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dcd48786506ef644bceb8b9bae53dbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  something: {fileID: 4613212242239578017, guid: f294247f85fcb3241ba3f034572815dc, type: 3}
 --- !u!1 &961921620302289948
 GameObject:
   m_ObjectHideFlags: 0
