@@ -1,9 +1,7 @@
 /* 
- * 코드 참고: https://hereishyun.tistory.com/100
  * BedtoSleep 클래스는 패널과 텍스트의 불투명도를 조절하여 페이드 인/아웃 효과를 구현합니다.
  * 패널과 텍스트의 알파 값을 조절하여 페이드 인/아웃을 수행합니다.
  * FadeOutWithMessage 함수는 메시지를 화면에 표시하고 5초 후에 페이드 인을 실행합니다.
- * 다른 스크립트에서 콜백 함수를 등록할 수 있습니다.
  */
 
 using System;
@@ -75,6 +73,11 @@ public class BedtoSleep : MonoBehaviour // Panel 불투명도 조절해 페이�
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+        
+        // FadeIn 끝나고 완전히 불투명도 0으로 설정
+        panel.GetComponent<CanvasRenderer>().SetAlpha(0f);
+        messageText.alpha = 0f;
+
         panel.SetActive(false); // Panel을 비활성화
         messageText.gameObject.SetActive(false); // 메시지 텍스트 비활성화
         onCompleteCallback?.Invoke(); // 이후에 해야 하는 다른 액션이 있는 경우(null이 아님) 진행한다
@@ -110,10 +113,5 @@ public class BedtoSleep : MonoBehaviour // Panel 불투명도 조절해 페이�
             Debug.Log("FirstsleepUI가 비활성화되었습니다.");
         }
         FadeIn();
-    }
-
-    public void RegisterCallback(Action callback) // 다른 스크립트에서 콜백 액션 등록하기 위해 사용
-    {
-        onCompleteCallback = callback;
     }
 }
