@@ -1,3 +1,9 @@
+/*
+ * Manages the generation and display of in-game articles
+ * - Randomly selects and displays 3 articles by default
+ * - Places a "Special Article" at the first slot when specified
+ */
+
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -15,8 +21,8 @@ public class ArticleManager : MonoBehaviour
         "민트초코 신메뉴|최근 민트미식회에서\n새로운 민트초코 메뉴를 개발하였다.\n민트미식회 회장 김민초씨는\n만족스러운 결과물이라며 입을 활짝 웃어보였다."
     };
 
-    public TMP_Text[] articleTitles; // Article1~3의 TMP_Text 배열
-    public GameObject articleCanvasPrefab; // 새로운 캔버스 프리팹
+    public TMP_Text[] articleTitles;
+    public GameObject articleCanvasPrefab;
 
     private List<(string title, string content)> articleList = new List<(string, string)>();
 
@@ -26,7 +32,8 @@ public class ArticleManager : MonoBehaviour
         SetRandomArticles();
     }
 
-    void InitializeArticles()
+    // Set the ArticleList
+    public void InitializeArticles()
     {
         foreach (string article in articles)
         {
@@ -36,49 +43,46 @@ public class ArticleManager : MonoBehaviour
     }
 
     public void SetRandomArticles()
-{
-    // 랜덤으로 기사 선택
-    System.Random random = new System.Random();
-    var selectedArticles = articleList.OrderBy(x => random.Next()).Take(3).ToList();
-
-    // 기사 제목 설정 및 버튼 클릭 이벤트 추가
-    for (int i = 0; i < articleTitles.Length; i++)
     {
-        articleTitles[i].text = selectedArticles[i].title;
-        int index = i; // 로컬 변수로 인덱스 저장
-        articleTitles[i].GetComponent<Button>().onClick.RemoveAllListeners(); // 기존 이벤트 제거
-        articleTitles[i].GetComponent<Button>().onClick.AddListener(() => ShowArticleCanvas(selectedArticles[index]));
-    }
-}
+        // Select 3 articles randomly
+        System.Random random = new System.Random();
+        var selectedArticles = articleList.OrderBy(x => random.Next()).Take(3).ToList();
 
-
-    void ShowArticleCanvas((string title, string content) article)
-    {
-        GameObject newCanvas = Instantiate(articleCanvasPrefab);
-        TMP_Text[] textComponents = newCanvas.GetComponentsInChildren<TMP_Text>();
-        textComponents[0].text = article.title;
-        textComponents[1].text = article.content;
+        // Set Article title and click event
+        for (int i = 0; i < articleTitles.Length; i++)
+        {
+            articleTitles[i].text = selectedArticles[i].title;
+            int index = i;
+            articleTitles[i].GetComponent<Button>().onClick.RemoveAllListeners();
+            articleTitles[i].GetComponent<Button>().onClick.AddListener(() => 
+                ShowArticleCanvas(selectedArticles[index].title, selectedArticles[index].content, false));
+        }
     }
 
-    public void SetSpecialArticle(string title, string content) // 첫 기사 변경
+    // Set Special Article on the first Title
+    public void SetSpecialArticle(string title, string content)
     {
         articleTitles[0].text = title;
         articleTitles[0].GetComponent<Button>().onClick.RemoveAllListeners();
-        articleTitles[0].GetComponent<Button>().onClick.AddListener(() => ShowSpecialArticleCanvas(title, content));
+        articleTitles[0].GetComponent<Button>().onClick.AddListener(() => 
+            ShowArticleCanvas(title, content, true));
     }
 
-    void ShowSpecialArticleCanvas(string title, string content)
+    // Show Article
+    public void ShowArticleCanvas(string title, string content, bool isSpecial = false)
     {
         GameObject newCanvas = Instantiate(articleCanvasPrefab);
         TMP_Text[] textComponents = newCanvas.GetComponentsInChildren<TMP_Text>();
         textComponents[0].text = title;
         textComponents[1].text = content;
 
-        // Report 오브젝트 활성화
-        Transform reportTransform = newCanvas.transform.Find("Report");
-        if (reportTransform != null)
+        if (isSpecial)
         {
-            reportTransform.gameObject.SetActive(true);
+            Transform reportTransform = newCanvas.transform.Find("Report");
+            if (reportTransform != null)
+            {
+                reportTransform.gameObject.SetActive(true);
+            }
         }
     }
 }

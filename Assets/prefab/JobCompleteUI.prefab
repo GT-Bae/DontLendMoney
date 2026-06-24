@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3612947267234199805}
   - component: {fileID: 4105800956501351586}
   m_Layer: 5
-  m_Name: Pay
+  m_Name: PayText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,10 +65,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "+0\uB9CC\uC6D0"
+  m_text: "+0\u5343\u5186"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d51de7bc681d62343a07b8030fe134eb, type: 2}
-  m_sharedMaterial: {fileID: 7999749144380299858, guid: d51de7bc681d62343a07b8030fe134eb, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 83746549cf41db84eb64f52439e50d3a, type: 2}
+  m_sharedMaterial: {fileID: 1063687654432238942, guid: 83746549cf41db84eb64f52439e50d3a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -103,6 +103,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -276,10 +277,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC54C\uBC14\uB97C \uC644\uB8CC\uD588\uC2B5\uB2C8\uB2E4"
+  m_text: "\u30A2\u30EB\u30D0\u30A4\u30C8\u3092\u5B8C\u4E86\u3057\u307E\u3057\u305F\u3002"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d51de7bc681d62343a07b8030fe134eb, type: 2}
-  m_sharedMaterial: {fileID: 7999749144380299858, guid: d51de7bc681d62343a07b8030fe134eb, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 83746549cf41db84eb64f52439e50d3a, type: 2}
+  m_sharedMaterial: {fileID: 1063687654432238942, guid: 83746549cf41db84eb64f52439e50d3a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -314,6 +315,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -434,7 +436,7 @@ GameObject:
   - component: {fileID: 8926941459761564586}
   - component: {fileID: 661184908793885371}
   m_Layer: 5
-  m_Name: Health
+  m_Name: HealthText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -487,10 +489,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uCCB4\uB825 -0"
+  m_text: "\u4F53\u529B -0"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d51de7bc681d62343a07b8030fe134eb, type: 2}
-  m_sharedMaterial: {fileID: 7999749144380299858, guid: d51de7bc681d62343a07b8030fe134eb, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 83746549cf41db84eb64f52439e50d3a, type: 2}
+  m_sharedMaterial: {fileID: 1063687654432238942, guid: 83746549cf41db84eb64f52439e50d3a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -525,6 +527,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -756,10 +759,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD655\uC778"
+  m_text: "\u78BA\u8A8D"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d51de7bc681d62343a07b8030fe134eb, type: 2}
-  m_sharedMaterial: {fileID: 7999749144380299858, guid: d51de7bc681d62343a07b8030fe134eb, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 83746549cf41db84eb64f52439e50d3a, type: 2}
+  m_sharedMaterial: {fileID: 1063687654432238942, guid: 83746549cf41db84eb64f52439e50d3a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -794,6 +797,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -960,5 +964,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf3f203bd8fb714d821ef3aa4ddbbba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pay: {fileID: 4105800956501351586}
-  health: {fileID: 661184908793885371}
+  payText: {fileID: 4105800956501351586}
+  healthText: {fileID: 661184908793885371}
