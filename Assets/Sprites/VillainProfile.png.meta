@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      VillainProfile_0: 2781921886299178611
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
