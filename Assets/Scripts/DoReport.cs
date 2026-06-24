@@ -1,3 +1,7 @@
+/*
+ * ReportというPleayerPrefsを1に設定するクラス
+ */
+
 using UnityEngine;
 
 public class DoReport : MonoBehaviour

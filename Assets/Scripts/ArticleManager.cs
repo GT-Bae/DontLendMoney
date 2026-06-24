@@ -1,7 +1,5 @@
 /*
- * Manages the generation and display of in-game articles
- * - Randomly selects and displays 3 articles by default
- * - Places a "Special Article" at the first slot when specified
+ * 3つの記事をランダムに選択して表示し、呼び出しに応じて特別な記事を表示するクラス
  */
 
 using UnityEngine;
@@ -14,11 +12,11 @@ public class ArticleManager : MonoBehaviour
 {
     private List<string> articles = new List<string>
     {
-        "세계를 놀라게 한 남자|원래는 두개를 내려고 했으나\n세개를 낸 남자는 세계를 놀라게 했다.",
-        "내 귀에 도청이 있어… 귀 평수 화제|최근 뉴스에 난입하여\n‘내 귀에 도청이 있어’\n라고 한 남자가 주목을 받고 있다.\n도대체 얼마나 넓길래 도청이 있을 수 있을까?\n\n후속 기사 원해요 213",
-        "밈이란 무엇인가?|밈이란 무엇인가?\n‘ㅁ’ 2개와 ‘ㅣ’ 하나로 이루어져 있다.\n비슷한 발음의 단어로는 ‘미음’이 있다.",
-        "마라탕의 매력|마라탕의 매력을 모르는 사람들에게 말하고 싶다.\n마라탕 저도 먹어보고 싶습니다.\n저도 하나 사주세요.",
-        "민트초코 신메뉴|최근 민트미식회에서\n새로운 민트초코 메뉴를 개발하였다.\n민트미식회 회장 김민초씨는\n만족스러운 결과물이라며 입을 활짝 웃어보였다."
+        "「ミーム」とは何か？|ミーム（Meme）とは何か？\n「M」が２つ、「e」が２つで構成されている。\n似た発音の言葉としては\n「マミムメモ」がある。",
+        "マーラータンの魅力|マーラータンの魅力を知らない人たちに言いたい。\n私もマーラータンを食べてみたいです。\n誰か私にも一杯おごってください。",
+        "チョコミント新メニュー|先日、チョコミン党（民特美食会）が\n新しいチョコミントメニューを開発した。\nチョコミン党代表のキム・ミンチョ氏は\n「満足のいく仕上がりだ」と満面の笑みを浮かべた。",
+        "虫（バグ）退治に最高の裏技|デバッグをして祈祷を捧げれば解決です…絶対バグるな、頼むから",
+        "背筋ピザの新メニューがバズる…|新メニュー『シワ伸ばしピザ』がなんと1万円で登場！！明日発売なので、ぜひ皆さん食べに来てください。背筋ピザの店長「背筋」より。（堂々）"
     };
 
     public TMP_Text[] articleTitles;
@@ -32,7 +30,7 @@ public class ArticleManager : MonoBehaviour
         SetRandomArticles();
     }
 
-    // Set the ArticleList
+    // articleListを初期設定
     public void InitializeArticles()
     {
         foreach (string article in articles)
@@ -44,11 +42,10 @@ public class ArticleManager : MonoBehaviour
 
     public void SetRandomArticles()
     {
-        // Select 3 articles randomly
         System.Random random = new System.Random();
         var selectedArticles = articleList.OrderBy(x => random.Next()).Take(3).ToList();
 
-        // Set Article title and click event
+        // 記事の題名とクリックイベントを設定
         for (int i = 0; i < articleTitles.Length; i++)
         {
             articleTitles[i].text = selectedArticles[i].title;
@@ -59,7 +56,7 @@ public class ArticleManager : MonoBehaviour
         }
     }
 
-    // Set Special Article on the first Title
+    // 特別な記事を1番目に設定
     public void SetSpecialArticle(string title, string content)
     {
         articleTitles[0].text = title;
@@ -68,7 +65,7 @@ public class ArticleManager : MonoBehaviour
             ShowArticleCanvas(title, content, true));
     }
 
-    // Show Article
+    // 記事を表示
     public void ShowArticleCanvas(string title, string content, bool isSpecial = false)
     {
         GameObject newCanvas = Instantiate(articleCanvasPrefab);
