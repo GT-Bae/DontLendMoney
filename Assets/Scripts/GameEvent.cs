@@ -1,62 +1,57 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using System.Collections;
-using UnityEngine.SceneManagement;
-using Unity.Collections.LowLevel.Unsafe;
 using System.Collections.Generic;
-using System.Data.Common;
 
 public class GameEvent : MonoBehaviour
 {
-    public GameObject firstUI; // 처음 실행시 활성화할 오브젝트트
-    public GameObject jobComplete; // 알바 완료 시 생성할 프리팹
-    public GameObject jobLowHealth; // 체력 부족 시 생성할 프리팹
-    public Text healthText; // 체력 UI 텍스트
-    public Text dayText; // 현재 날짜 UI 텍스트
-    public Text mymoneytext; // 내 돈 UI 텍스트
-    public Text recoveryText;  // 진행 상황 UI 텍스트
-    public Text friendText; // 친구 수 UI 텍스트
-    public AudioSource audioSource; // AudioSource 컴포넌트를 연결
-    public List<AudioClip> audioClips; // 여러 AudioClip을 저장할 리스트
-    /*** 오디오
-    0: 돈소리
-    1: 경고소리
-    2: 잠
-    3: 침대 효과음
-    4: 엔딩
+    public GameObject OpeningUI;
+    public GameObject jobComplete; // アルバイト完了時に生成
+    public GameObject jobLowHealth; // アルバイトの体力不足時に生成
+    public TMP_Text healthText; // 体力UI
+    public TMP_Text dayText; // 日付UI
+    public TMP_Text mymoneytext; // 所持金UI
+    public TMP_Text recoveryText;  // 回収金UI
+    public TMP_Text friendText; // 友達数UI
+    public AudioSource audioSource;
+    public List<AudioClip> audioClips;
+    /*** SE
+    0: お金の音
+    1: 警告の音
+    2: 睡眠の音
+    3: ベッドの音
+    4: エンディング
     ***/
 
-    public Transform verticalView; // VerticalView의 Transform
-    public GameObject returnPrefab;
+    public Transform verticalView;
+    public GameObject repayEventPrefab; // 回収金イベント用
 
     private List<(string name, int loanAmount, int remainDate)> loanList = new List<(string, int, int)>();
-    public AudioSource specificAudioSource; // BGM 틀어주는 오브젝트
+    public AudioSource specificAudioSource;
     public List<TMP_Text> interest;
-    private int maxHealth = 3; // 최대 체력
-    private int maxFriends = 0; // 최대 친구 수
+    private int maxHealth = 3;
+    private int maxFriends = 0;
 
-    private ArbeitPositioner arbeitPositioner; // 알바 설정 스크립트
-    private BedtoSleep bedtoSleep; // 수면 효과 스크립트
-    private GotoEnding gotoEnding; // 엔딩 스크립트
-    private CalendarManager calendarManager; // 엔딩 스크립트
-    private ArticleManager articleManager; // 기사 스크립트
-    private NameListPositioner nameListPositioner; // 랜덤 친구 등
+    private ArbeitPositioner arbeitPositioner; // アルバイト配置コンポーネント
+    private BedtoSleep bedtoSleep; // 睡眠のコンポーネント
+    private GotoEnding gotoEnding; // エンディングのコンポーネント
+    private CalendarManager calendarManager; // カレンダー管理のコンポーネント
+    private ArticleManager articleManager; // 記事管理のコンポーネント
+    private NameListPositioner nameListPositioner; // チャットリスト管理のコンポーネント
     private void Start()
     {
-        // 같은 오브젝트에 있는 ArbeitPositioner 컴포넌트를 가져옴
         arbeitPositioner = GetComponent<ArbeitPositioner>();
         bedtoSleep = GetComponent<BedtoSleep>();
         gotoEnding = GetComponent<GotoEnding>();
         calendarManager = GetComponent<CalendarManager>();
         articleManager = GetComponent<ArticleManager>();
         nameListPositioner = GetComponent<NameListPositioner>();
-        arbeitPositioner.DailyArbeitPositioner(); // 알바 랜덤 돌림
+        arbeitPositioner.DailyArbeitPositioner(); // アルバイトをランダムに配置
 
         UpdateAllText();
     }
 
-    public void UpdateAllText() { //모든 UI 업데이트
+    public void UpdateAllText() // 全てのUI更新
+    {
         maxHealth = PlayerPrefs.GetInt("MaxHealth");
         UpdateDayText();
         UpdateHealthText(PlayerPrefs.GetInt("CurrentHealth", maxHealth));
@@ -65,19 +60,19 @@ public class GameEvent : MonoBehaviour
         UpdateFriendText(PlayerPrefs.GetInt("CurrentFriends", 0));
     }
 
-    private void SaveGameData()
+    private void SaveGameData()// データをセーブ
     {
-        PlayerPrefs.Save(); // 게임 데이터를 저장
-        Debug.Log("게임 데이터가 저장되었습니다.");
+        PlayerPrefs.Save(); 
+        Debug.Log("ゲームのデータがセーブされました。");
     }
 
-    /*** ---------------테스트용----------------- ***/
+    /*** ---------------テスト用----------------- ***/
     public void TestHealthIncrease() {
         PlayerPrefs.SetInt("CurrentHealth", maxHealth);
-        UpdateHealthText(maxHealth); // 체력 UI 업데이트
+        UpdateHealthText(maxHealth);
     }
 
-    /*** 알바 ***/
+    /*** アルバイト ***/
     public void PerformAlba()
     {
         int currentHealth = PlayerPrefs.GetInt("CurrentHealth", maxHealth);
@@ -95,7 +90,7 @@ public class GameEvent : MonoBehaviour
 
             UpdateHealthText(currentHealth);
             UpdateMoneyText(currentMoney);
-            Debug.Log("알바를 완료했습니다. 체력 -" + healthLossValue + ", 돈 +" + payValue);
+            Debug.Log("アルバイトを完了しました。体力-" + healthLossValue + ", お金＋" + payValue);
 
             PlayAudio(0);
             Instantiate(jobComplete);
@@ -103,19 +98,18 @@ public class GameEvent : MonoBehaviour
         else
         {
             Instantiate(jobLowHealth);
-            Debug.Log("체력이 부족하여 알바를 할 수 없습니다.");
+            Debug.Log("体力が尽きたため、アルバイトはできません。");
         }
     }
 
-    /*** 수면 ***/
+    /*** 睡眠 ***/
     public void PerformSleep()
     {
-        int currentDay = PlayerPrefs.GetInt("CurrentDay", 1); // 현재 날짜 가져오기
+        int currentDay = PlayerPrefs.GetInt("CurrentDay", 1);
         int currentMoney = PlayerPrefs.GetInt("MyMoney", 0);
-        if (currentDay < 28) // 마지막날이면 엔딩으로
+        if (currentDay < 28)
         {
-            // 돈 빠지는거 및 기사사
-            switch (currentDay) {
+            switch (currentDay) { //カレンダーに応じた支出
                 case 2:
                     currentMoney -= 10;
                     break;
@@ -145,7 +139,7 @@ public class GameEvent : MonoBehaviour
                     break;
             }
 
-            int hasLoan = PlayerPrefs.GetInt("hasLoan",0);
+            int hasLoan = PlayerPrefs.GetInt("hasLoan",0); // 利子増加
             if (hasLoan == 1) {
                 if (currentDay <= 21){
                     currentMoney -= 3;
@@ -157,45 +151,44 @@ public class GameEvent : MonoBehaviour
             PlayerPrefs.SetInt("MyMoney", currentMoney);
             UpdateMoneyText(currentMoney);
 
-            currentDay++; // 날짜 증가
-            PlayerPrefs.SetInt("CurrentDay", currentDay); // 날짜 저장
-            PlayerPrefs.SetInt("CurrentHealth", maxHealth); // 최대 체력으로 복원
-            //PlayerPrefs.SetInt("NewDay", 1); // NewDay 값을 1로 설정
+            currentDay++;
+            PlayerPrefs.SetInt("CurrentDay", currentDay); // 日付セーブ
+            PlayerPrefs.SetInt("CurrentHealth", maxHealth); // 最大体力に戻す
 
-            SaveGameData(); // 게임 데이터 저장
-            UpdateDayText(); // 날짜 UI 업데이트
-            UpdateHealthText(maxHealth); // 체력 UI 업데이트
-            arbeitPositioner.DailyArbeitPositioner(); // 알바 랜덤 돌림
-            articleManager.SetRandomArticles(); //기사 랜덤 돌림
-            bedtoSleep.FadeOutWithMessage(); // 수면 효과
-            nameListPositioner.GenerateRandomPrefabs(3); // 랜덤 메시지
+            SaveGameData();
+            UpdateDayText();
+            UpdateHealthText(maxHealth);
+            arbeitPositioner.DailyArbeitPositioner();
+            articleManager.SetRandomArticles();
+            bedtoSleep.FadeOutWithMessage();
+            nameListPositioner.GenerateRandomChats(3);
 
             PlayAudio(2);
             
-            // 달력 업데이트
+            // カレンダー更新
             switch (currentDay) {
                 case 8:
                     calendarManager.UpdateDates();
-                    calendarManager.SetTodo(2,"생활비\n-30만원");
-                    calendarManager.SetTodo(5,"악마\n-30만원");
+                    calendarManager.SetTodo(2,"生活費\n-30千円");
+                    calendarManager.SetTodo(5,"悪魔\n-30千円");
                     break;
                 case 15:
                     calendarManager.UpdateDates();
                     calendarManager.SetTodo(2,"");
-                    calendarManager.SetTodo(3,"월세\n-50만원");
+                    calendarManager.SetTodo(3,"家賃\n-50千円");
                     break;
                 case 22:
                     calendarManager.UpdateDates();
                     calendarManager.SetTodo(3,"");
-                    interest[0].text = "일일이자 5%";
-                    interest[1].text = "일일이자 5%";
+                    interest[0].text = "一日利子 5%";
+                    interest[1].text = "一日利子 5%";
                     break;
                 case 28:
-                    articleManager.SetSpecialArticle("빌려준돈 받는법","빌려준 돈을 받지 못하는 상황이라면\n정말 답답할 것이다.\n분명 빌려줄때는 별 생각이 없었는데\n빌려준 액수가 커질수록 주객전도가 되어\n자신이 돈을 빌린듯한 느낌이 든다.\n점점 시간은 흘러가는데 돈을 갚지 않으려고 한다면\n돌려받는 것은 쉽지 않을 것이다.\n어느정도 자료 준비를 한 이후\n신고를 하는 것이 좋다.");
+                    articleManager.SetSpecialArticle("最近、悪魔による被害を受けた方はご確認","こんにちは。悪魔被害の防止に力を入れております、天使ギルドです。\n近頃、悪魔による被害が増加する傾向にあります。\nどうか被害を受けている方は、下の通報ボタンを押して支援を要請してください。\n市民の皆さまの平穏な一日をお祈りしております。\n天使ギルドより");
                     break;
             }
 
-            // 스토리 진행
+            // ストーリー進行
             switch (currentDay) {
                 case 1:
                     nameListPositioner.GeneratePrefab(1);
@@ -247,103 +240,106 @@ public class GameEvent : MonoBehaviour
                     break;
             }
         }
-        else
+        else // 最後の日ならエンディングへ
         {
             specificAudioSource.Stop();
             PlayAudio(4);
             gotoEnding.endSetting();
-            Debug.Log("엔딩으로 가기");
+            Debug.Log("エンディングにいく");
         }
     }
 
-    /*** 회수금 ***/
+    /*** 回収金 ***/
     public void ReceiveRecovery(int returnAmount) {
-        int currentRecovery = PlayerPrefs.GetInt("Recovery", 0); // 현재 회수금
+        int currentRecovery = PlayerPrefs.GetInt("Recovery", 0);
 
-        currentRecovery += returnAmount; // 회수금에 더하기
-        PlayerPrefs.SetInt("Recovery", currentRecovery); // 회수금 저장
-        SaveGameData(); // 게임 데이터 저장
+        currentRecovery += returnAmount;
+        PlayerPrefs.SetInt("Recovery", currentRecovery);
+        SaveGameData();
 
         UpdateRecoveryText(currentRecovery);
 
-        Debug.Log("회수금이 업데이트되었습니다: " + currentRecovery);
+        Debug.Log("回収金が更新されました: " + currentRecovery);
     }
 
-    /*** 친구 ***/
+    /*** 友達 ***/
     public void AddFriend()
     {
-        int currentFriends = PlayerPrefs.GetInt("CurrentFriends", 0); // 현재 친구 수 가져오기
+        int currentFriends = PlayerPrefs.GetInt("CurrentFriends", 0);
 
-        if (currentFriends < maxFriends) // 최대 친구 수 미달 시 친구 추가
+        if (currentFriends < maxFriends)
         {
-            currentFriends++; // 친구 수 증가
-            PlayerPrefs.SetInt("CurrentFriends", currentFriends); // 친구 수 저장
-            SaveGameData(); // 게임 데이터 저장
+            currentFriends++;
+            PlayerPrefs.SetInt("CurrentFriends", currentFriends);
+            SaveGameData();
 
-            UpdateFriendText(currentFriends); // 친구 수 UI 업데이트
-            Debug.Log("친구가 추가되었습니다.");
+            UpdateFriendText(currentFriends);
+            Debug.Log("友達が追加されました。");
         }
         else
         {
-            Debug.Log("최대 친구 수를 초과할 수 없습니다.");
+            Debug.Log("最大友達数を超過できません。");
         }
     }
 
+    /*** UI ***/
     private void UpdateHealthText(int health)
     {
-        healthText.text = "체력: " + health + " / " + maxHealth; // 체력 UI 업데이트
+        healthText.text = "体力：" + health + "/" + maxHealth;
     }
 
     private void UpdateDayText()
     {
-        int currentDay = PlayerPrefs.GetInt("CurrentDay", 1); // 현재 날짜 가져오기
-        dayText.text = currentDay + "일"; // 날짜 UI 업데이트
+        int currentDay = PlayerPrefs.GetInt("CurrentDay", 1);
+        dayText.text = currentDay + "日";
     }
 
     private void UpdateMoneyText(int money)
     {
-        mymoneytext.text = "잔고: " + money + "만원"; // 내 돈 UI 업데이트
+        mymoneytext.text = "残高：" + money + "千円";
     }
 
     private void UpdateRecoveryText(int money)
     {
-        recoveryText.text = "회수금: " + money + "만원"; // 진행 상황 UI 업데이트
+        recoveryText.text = "回収金：" + money + "千円";
     }
 
     private void UpdateFriendText(int friends)
     {
         maxFriends = PlayerPrefs.GetInt("MaxFriends",0);
-        friendText.text = "친구: " + friends + " / " + maxFriends; // 친구 수 UI 업데이트
+        friendText.text = "友達：" + friends + "/" + maxFriends;
     }
 
     private void OnApplicationQuit()
     {
-        SaveGameData(); // 애플리케이션 종료 시 게임 데이터 저장
+        SaveGameData();
     }
 
-    public void FirstUIActive() {
-        firstUI.SetActive(true);
+    public void OpeningUIActive() {
+        OpeningUI.SetActive(true);
     }
 
-    public void PlayAudio(int index) // 오디오 재생
+    public void PlayAudio(int index)
     {
         if (index >= 0 && index < audioClips.Count)
         {
             audioSource.clip = audioClips[index];
             audioSource.Play();
-            Debug.Log("오디오가 재생되었습니다: " + audioClips[index].name);
+            Debug.Log("SEが再生しました: " + audioClips[index].name);
         }
         else
         {
-            Debug.LogError("잘못된 인덱스입니다: " + index);
+            Debug.LogError("インデックス範囲ではありません: " + index);
         }
     }
 
+    /*** 返済イベント ***/
     public void AddToList(string name, int loanAmount, int remainDate)
     {
         loanList.Add((name, loanAmount, remainDate));
-        Debug.Log($"Added to list: {name}, {loanAmount}, {remainDate}");
+        Debug.Log($"リストに追加: {name}, {loanAmount}, {remainDate}");
     }
+
     public void DecreaseDaysAndCheckEvents()
     {
         for (int i = 0; i < loanList.Count; i++)
@@ -353,44 +349,44 @@ public class GameEvent : MonoBehaviour
 
             if (item.remainDate <= 0)
             {
-                TriggerEvent(item);
+                FriendsLoanEvent(item);
                 loanList.RemoveAt(i);
-                i--; // 리스트에서 항목을 제거했으므로 인덱스 조정
+                i--;
             }
             else
             {
-                loanList[i] = item; // 업데이트된 값을 리스트에 다시 저장
+                loanList[i] = item;
             }
         }
     }
 
-    private void TriggerEvent((string name, int loanValue, int remainDay) item)
+    private void FriendsLoanEvent((string name, int loanValue, int remainDay) item)
     {
         float randomValue = Random.value;
-        if (randomValue < 0.7f) { // 변제
+        if (randomValue < 0.7f) { // 返済
             int currentMoney = PlayerPrefs.GetInt("MyMoney",0);
             PlayerPrefs.SetInt("MyMoney",currentMoney+item.loanValue);
             ReceiveRecovery(item.loanValue);
             UpdateAllText();
-            spawnReturnPrefab(item.name,"은 ",item.loanValue,"만원을 변제하였습니다.");
-            Debug.Log($"{item.name}은 변제하였습니다.");
-        } else if (Random.value < 0.5f) { // 이자
+            spawnReturnPrefab(item.name,"は",item.loanValue,"千円を返しました。");
+            Debug.Log($"{item.name}は返しました。");
+        } else if (Random.value < 0.5f) { // 利子
             int currentMoney = PlayerPrefs.GetInt("MyMoney",0);
             item.loanValue *= 125;
             item.loanValue /= 100;
             PlayerPrefs.SetInt("MyMoney",currentMoney+item.loanValue);
             ReceiveRecovery(item.loanValue);
             UpdateAllText();
-            spawnReturnPrefab(item.name,"은 이자 보태서",item.loanValue,"만원을 변제하였습니다.");
-            Debug.Log($"{item.name}은 이자를 냈습니다.");
+            spawnReturnPrefab(item.name,"は利子を含めて",item.loanValue,"千円を返しました。");
+            Debug.Log($"{item.name}は利子もくれました.");
         } else { // 잠적
-            spawnReturnPrefab(item.name,"은 ",item.loanValue,"만원을 들고 잠적했습니다.");
-            Debug.Log($"{item.name}은 잠적하였습니다.");
+            spawnReturnPrefab(item.name,"は",item.loanValue,"千円を持って姿を消しました。");
+            Debug.Log($"{item.name}は音信不通になりました。");
         }
     }
 
     private void spawnReturnPrefab(string str1, string str2, int money, string str3) {
-        GameObject newPrefab = Instantiate(returnPrefab, verticalView);
+        GameObject newPrefab = Instantiate(repayEventPrefab, verticalView);
         TMP_Text returnText = newPrefab.transform.Find("ReturnText").GetComponent<TMP_Text>();
         returnText.text = $"{str1} {str2} {money} {str3}";
     }

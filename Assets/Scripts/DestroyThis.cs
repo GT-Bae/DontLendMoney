@@ -1,3 +1,7 @@
+/*
+ * このコンポーネントが付いたオブジェクトを削除
+ */
+
 using UnityEngine;
 
 public class DestroyThis : MonoBehaviour

@@ -1,72 +1,59 @@
+/*
+ * チャット画面の名前リストを制御するクラス
+ */
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; // TextMeshPro 사용을 위한 네임스페이스
+using TMPro;
 
 public class NameListPositioner : MonoBehaviour
 {
-    public Sprite[] profileImages; // 프로필 이미지 배열
-    public List<string> staticNameList = new List<string>
-    {"악마", "김민준", "고훈이"};
-    public List<string> randomNameList = new List<string>
-    {
-        "동동수", "각티수", "마우수", "기보드", "마이클", "오이지", "수정석", "직구본",
-        "대불암", "곽이손", "황꺽정", "김필수", "이우나", "박거세", "최면식", "정리왕",
-        "강악진", "포도륙", "조조", "윤와사", "장티푼", "임영황", "오소박", "이발석",
-        "황니터", "안릿지", "송스크", "홍달무", "유희롱", "전퓨즈", "고음양", "문자바",
-        "붕객체", "양안로", "손픽아", "배지타", "조유테", "백송프", "허영굼", "남설구",
-        "심밧드", "노비타", "하필드", "곽필승", "성씨샵", "차바코", "주로잉", "우스타",
-        "구한말", "사만루", "나파엘", "민리궁", "진자로", "지로영", "엄핸림", "채즙모",
-        "원노트", "천일염", "방소발", "공아밍", "염변국", "변설석", "양피지", "라지오",
-        "견문석", "표암상", "반모혁", "맹국엄", "제기차", "계주인", "사이킥", "두반장",
-        "설국차", "김축구", "채혈윤", "탁구재", "어명인", "범재율", "여객항", "호빅",
-        "피자연", "가갸일", "목전진", "음박페", "석포터", "서이추", "운석현", "후아윤",
-        "빈선덕", "권궐련", "필립", "돈각수", "탄착점", "삼벽조", "뇌이진", "이리듬",
-        "비편문", "금억수", "위성락", "모나덕"
-    };
+    public Sprite[] profileImages; // プロフィール画像配列
+    private List<string> staticNameList = new List<string>
+    {"悪魔", "ジュン", "ゴ"}; //主要キャラクター
+    private List<string> randomNameList = new List<string>
+    {"亜","哀","挨","愛","曖","悪","握","圧","扱","宛","金","安","案","暗","以","衣","位","囲","医","依","委","威","為","畏","胃","尉","異","移","萎","偉","椅","彙","意","違","維","慰","遺","緯","域","育","一","壱","逸","茨","芋","引","印","因","咽","姻","員","院","淫","陰","飲","隠","韻","右","宇","羽","雨","唄","鬱","畝","浦","運","雲","永","泳","英","映","栄","営","詠","影","鋭","衛","易","疫","益","液","駅","悦","越","謁","閲","円","延","沿","炎","怨","宴","媛","援","園","煙","猿","遠","鉛","塩"};
 
-    public GameObject prefab; // 생성할 Prefab
-    public Transform contentTransform; // ScrollView의 Content를 연결
-
+    public GameObject chatButtonPrefab;
+    public Transform contentTransform;
     private void Start()
     {
-        GenerateRandomPrefabs(3);
+        GenerateRandomChats(3);
     }
 
     public void GeneratePrefab(int i)
     {
-        if (prefab == null || contentTransform == null)
+        if (chatButtonPrefab == null || contentTransform == null)
         {
-            Debug.LogError("프리팹 혹은 contentTransform이 없습니다.");
+            Debug.LogError("chatButtonPrefabやcontentTransformが連結されていません");
             return;
         }
 
-        // 이름 리스트 랜덤 섞기
-        ShuffleList(randomNameList);
-        
-        GameObject newPrefab = Instantiate(prefab, contentTransform); // Content에 추가
+        ShuffleList(randomNameList);     
+        GameObject newChatButton = Instantiate(chatButtonPrefab, contentTransform);
 
-        // "Name"이라는 TextMeshProUGUI 컴포넌트에 이름 표시
-        var nameText = newPrefab.transform.Find("Name")?.GetComponent<TextMeshProUGUI>();
+        var nameText = newChatButton.transform.Find("Name")?.GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
             nameText.text = staticNameList[i];
         }
         else
         {
-            Debug.LogError($"{newPrefab.name} 프리팹에 TMP가 없습니다.");
+            Debug.LogError($"{newChatButton.name}  プレハブにTextMeshProUGUIコンポーネントがアタッチされていません。");
+            throw new MissingComponentException();
         }
 
-        var profile = newPrefab.transform.Find("Profile")?.GetComponent<Image>();
+        var profile = newChatButton.transform.Find("Profile")?.GetComponent<Image>();
         if (profile != null)
         {
             profile.sprite = profileImages[i];
         }
     }
 
-    public void GenerateRandomPrefabs(int count)
+    public void GenerateRandomChats(int count)
     {
-        // 기존 프리팹 제거
+        //既存のオブジェクトを削除
         foreach (Transform child in contentTransform)
         {
             Destroy(child.gameObject);
@@ -77,9 +64,8 @@ public class NameListPositioner : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             string selectedName = selectedNames[i];
-            GameObject newPrefab = Instantiate(prefab, contentTransform); // Content에 추가
+            GameObject newPrefab = Instantiate(chatButtonPrefab, contentTransform);
 
-            // "Name"이라는 TextMeshProUGUI 컴포넌트에 이름 표시
             var nameText = newPrefab.transform.Find("Name")?.GetComponent<TextMeshProUGUI>();
             if (nameText != null)
             {
@@ -87,10 +73,11 @@ public class NameListPositioner : MonoBehaviour
             }
             else
             {
-                Debug.LogError($"{newPrefab.name} 프리팹에 TMP가 없습니다.");
+                Debug.LogError($"{newPrefab.name}  プレハブにTextMeshProUGUIコンポーネントがアタッチされていません。");
+                throw new MissingComponentException();
             }
 
-            // 선택된 이름을 randomNameList에서 제거
+            //重複生成を防ぐため、選択された名前をリストから除外
             randomNameList.Remove(selectedName);
         }
     }

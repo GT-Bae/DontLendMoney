@@ -65,10 +65,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uAE40\uBBFC\uC218\uB294 20\uB9CC\uC6D0\uC744 \uBCC0\uC81C\uD558\uC600\uC2B5\uB2C8\uB2E4"
+  m_text: "\u91D1\u306F20\u5343\u5186\u3092\u8FD4\u6E08\u3057\u307E\u3057\u305F\u3002"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d51de7bc681d62343a07b8030fe134eb, type: 2}
-  m_sharedMaterial: {fileID: 7999749144380299858, guid: d51de7bc681d62343a07b8030fe134eb, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 83746549cf41db84eb64f52439e50d3a, type: 2}
+  m_sharedMaterial: {fileID: 1063687654432238942, guid: 83746549cf41db84eb64f52439e50d3a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -103,6 +103,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0

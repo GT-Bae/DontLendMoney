@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dcd48786506ef644bceb8b9bae53dbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPrefab: {fileID: 0}
+  targetPrefab: {fileID: 4290806330385556763, guid: 633ed3f021b6ac04c8b6447a5ce54a14, type: 3}
 --- !u!114 &6161044676749941214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -887,8 +887,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 878071525622536775}
-        m_TargetAssemblyTypeName: InstateSomething, Assembly-CSharp
-        m_MethodName: instateSomething
+        m_TargetAssemblyTypeName: ObjectSpawner, Assembly-CSharp
+        m_MethodName: spawnSomething
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

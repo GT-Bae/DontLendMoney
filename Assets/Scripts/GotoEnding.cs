@@ -1,3 +1,7 @@
+/*
+ * 分岐に応じてエンディングの台詞を切り替えるクラス
+ */
+
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -12,68 +16,68 @@ public class GotoEnding : MonoBehaviour
 
     public void endSetting() {
         int friends = PlayerPrefs.GetInt("CurrentFriends", 0);
-        int bonus = PlayerPrefs.GetInt("Recovery", 0);
+        int bonus = PlayerPrefs.GetInt("Recovery", 0); //友達からの返済金は3倍に計算
         int money = PlayerPrefs.GetInt("MyMoney", 0);
         money += bonus * 3;
         
         int hadloan = PlayerPrefs.GetInt("Loan",0);
         int hadReport = PlayerPrefs.GetInt("Report",0);
         
-        // 친구 분기
+        // 友達分岐
         if (friends < 5) {
             images[0].sprite = sprites[0];
-            title[0].text = "외딴 섬";
-            content[0].text = "너무 앞만 보고 달려오면서 바쁘게만 살아왔던 탓일까요?\n얼굴을 맞대면서 웃을 수 있는 친구가 많이 없어졌습니다.\n어차피 바빠서 만날 시간도 없으니 괜찮다고 생각합니다.";
+            title[0].text = "孤島";
+            content[0].text = "前だけを見て走り続け、忙しく生きてきたせいでしょうか？\n顔を合わせて笑い合える友達が、ずいぶん少なくなってしまいました。\nどうせ忙しくて会う時間もないので、これでいいのだと思っています。";
         } else if (friends < 10) {
             images[0].sprite = sprites[1];
-            title[0].text = "친구여";
-            content[0].text = "친구와 만날때면 언제나 편안합니다.\n학창시절 친구들과도 어느정도 연락합니다.\n평화로운 삶에 만족하며 지냅니다.";
+            title[0].text = "友よ";
+            content[0].text = "友達と会うと、いつも気が楽になります。\n学生時代の友達とも、ある程度は連絡を取り合っています。\n穏やかな暮らしに満足して過ごしています。";
         } else {
             images[0].sprite = sprites[2];
-            title[0].text = "최고의 의리";
-            content[0].text = "주변 사람은 모두 좋은 사람이었습니다.\n당신은 결과에 놀라면서도 한편으로는 만족했습니다.\n‘야 내가 고기 쏜다. 거절할시 딱밤’";
+            title[0].text = "最高の義理";
+            content[0].text = "周りの人はみんな良い人でした。\nあなたはこの結果に驚きつつも、どこか満足していました。\n「今日はみんなで食い倒れよう！！」";
         }
 
-        // 돈 분기
+        // お金分岐
         if (money < 500) {
             images[1].sprite = sprites[3];
-            title[1].text = "배고파";
-            content[1].text = "돈이 없어서 급한대로 아르바이트를 뜁니다.\n돈이 부족해지니 마음도 뭔가 여유롭지 않습니다.\n이런 일을 만든 악마는 이미 갔으니 어찌할 방도가 없습니다.\n빨리 이 상황을 벗어나야만 하겠지요.";
+            title[1].text = "腹ぺこ";
+            content[1].text = "お金がないので、とりあえずアルバイトを入れます。\nお金が足りなくなると、心にもなんだか余裕がなくなります。\nこんな事態を招いた悪魔はもういなくなってしまい、どうしようもありません。\n早くこの状況から抜け出さなければなりませんね。";
         } else if (money < 1500) {
             images[1].sprite = sprites[4];
-            title[1].text = "본전";
-            content[1].text = "어느정도 돈을 지켜냈습니다.\n일이 이상하게 흘러갔더라면 다 잃었을지도 모르죠.\n이제 소동은 끝났으니 하고있던 일이나 계속 해야겠네요.";
+            title[1].text = "元は取れた";
+            content[1].text = "ある程度のお金は守りきれました。\n少しでも流れが悪ければ、全部失っていたかもしれません。\nもう騒動は終わったので、やっていたことを続けるしかなさそうです。";
         } else {
             images[1].sprite = sprites[5];
-            title[1].text = "내기 성공";
-            content[1].text = "당신의 엄청난 지략으로 악마의 돈을 많이 뜯는데 성공하였습니다.\n꽁돈이 많이 생겨서 기분이 좋습니다.\n악마는 울면서 돌아갔습니다.";
+            title[1].text = "賭けに勝利";
+            content[1].text = "あなたの見事な策略で、悪魔から大金を巻き上げることに成功しました。\nお金がたくさん増えて、気分も上々です。\n悪魔は泣きながら帰っていきました。";
         }
 
-        // 대출 분기
+        // ローン分岐
         switch (hadloan) {
             case 0:
                 images[2].sprite = sprites[6];
-                title[2].text = "안전한 자산";
-                content[2].text = "변수가 될 일은 최대한 줄이는게 좋죠.\n당신은 대출을 거들떠도 보지 않았습니다.\n이자도 없고 빚도없는 활기찬 일상을 보냅니다.";
+                title[2].text = "安全な資産";
+                content[2].text = "不確定要素は、できるだけ減らしたいものです。\nあなたはローンに見向きもしませんでした。\n利子も借金もない、活気ある日々を過ごしています。";
                 break;
             case 1:
                 images[2].sprite = sprites[7];
-                title[2].text = "급전이 필요했다";
-                content[2].text = "대출을 받았습니다.\n돈이 자꾸 빠져나가는데 어쩔 수 없었죠.\n이번 이자는 냈으니 한 시름 놓았네요.";
+                title[2].text = "急な金が必要だった";
+                content[2].text = "ローンを組みました。\nお金がどんどん減っていきますが、仕方ありませんでした。\n今月の利子は払えたので、ひとまず安心です。";
                 break;
         }
 
-        // 신고 분기
+        // 通報分岐
         switch (hadReport) {
             case 0:
                 images[3].sprite = sprites[8];
-                title[3].text = "쟤는 언제 갚으려나...";
-                content[3].text = "28일을 버티긴 했지만 아직 받지 못한 돈이 많이 있습니다.\n좀 한가해질 때마다 친구에게 빌려준 돈이 생각납니다.\n애초에 빌려주지 말걸.";
+                title[3].text = "あいつ、いつ返すんだろう...";
+                content[3].text = "28日間はなんとか耐えましたが、まだ回収できていないお金がたくさんあります。\n少し暇になるたびに、友達に貸したお金のことを思い出します。\n最初から貸さなければよかった。";
                 break;
             case 1:
                 images[3].sprite = sprites[9];
-                title[3].text = "친구관계에 돈 없다.";
-                content[3].text = "‘야~ 친구니까 빌려줘라’ 라는 말은 허황된 말이라는 것을 깨달았습니다.\n오직 돈 만으로는 친구관계를 만들 수 없습니다.\n친구라는 관계에서 채무자와 채권자와의 관계로 변질되는 것은\n한 순간입니다.";
+                title[3].text = "友人関係に金はない。";
+                content[3].text = "「おい〜、友達なんだから貸してくれよ」という言葉が、いかに都合のいいものかを思い知りました。\nお金だけで友人関係を築くことはできません。\n友達という関係が、債務者と債権者の関係に変わってしまうのは\n一瞬のことです。\n天使ギルドが、あなたを苦しめた悪魔を拘束しました。";
                 break;
         }
 

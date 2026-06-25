@@ -1,3 +1,7 @@
+/*
+ * テキスト表示アニメーションとSE再生クラス
+ */
+
 using UnityEngine;
 using TMPro;
 using System.Collections;
@@ -17,6 +21,12 @@ public class TypingEffect : MonoBehaviour
 
     void OnEnable()
     {
+        StartCoroutine(ShowText());
+    }
+
+    public void SetText(string text)
+    {
+        fullText = text;
         StartCoroutine(ShowText());
     }
 

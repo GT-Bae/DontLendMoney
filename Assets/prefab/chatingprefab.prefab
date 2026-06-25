@@ -67,7 +67,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 3626b58fd68a41e4db2faf60442abc2c, type: 3}
+    m_Font: {fileID: 12800000, guid: fafed365276c8ac49a62f1eeffc34c8c, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
@@ -79,7 +79,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uB0B4\uC6A9"
+  m_Text: "\u5185\u5BB9"
 --- !u!114 &1783407464831490511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,7 +161,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 3626b58fd68a41e4db2faf60442abc2c, type: 3}
+    m_Font: {fileID: 12800000, guid: fafed365276c8ac49a62f1eeffc34c8c, type: 3}
     m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
@@ -173,7 +173,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uBC1C\uC2E0\uC790"
+  m_Text: "\u767A\u4FE1\u8005"
 --- !u!1 &8326596582647839279
 GameObject:
   m_ObjectHideFlags: 0

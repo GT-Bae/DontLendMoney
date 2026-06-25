@@ -1,5 +1,5 @@
 /*
- * ReportというPleayerPrefsを1に設定するクラス
+ * ReportというPlayerPrefsを1に設定するクラス
  */
 
 using UnityEngine;

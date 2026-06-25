@@ -1,9 +1,12 @@
+/*
+ * 対話の選択肢と台詞を出力し、所持金を増減させるクラス
+ */
+
+
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using JetBrains.Annotations;
 using System.Collections;
 
 public class DMUIManager : MonoBehaviour
@@ -13,7 +16,7 @@ public class DMUIManager : MonoBehaviour
     public Transform content;
     public GameObject otherChatPrefab;
     public GameObject myChatPrefab;
-    public float optionsHeight = 300f; // 선택지 UI의 높이
+    public float optionsHeight = 300f; // 選択肢UIのたかさ
     public GameObject warningLowMoney;
     private GameObject optionsUI = null;
     private RectTransform scrollViewRect;
@@ -25,10 +28,10 @@ public class DMUIManager : MonoBehaviour
     public List<Sprite> profiles;
     private bool hasChat = false;
     private bool choiceMade = false;
-    private List<string> FriendBorrowMents = new List<string> {"급한 사정이 있어서 그런데","면목이 없는데","미안한데","오랜만에 연락해서 이런말 해서 미안한데","이런말 하기 부끄러운데","이러면 안 되는거 아는데","정말 미안하다","잘 지내니?","요즘 힘들어서 그런데","어려운 부탁해서 미안한데","상황이 안 좋아서 그런데","이렇게 부탁하게 될 줄은 몰랐는데","도와주면 좋을 것 같다. 미안하다.","불편한 부탁일텐데","어쩔수 없는 상황이라 그런데","도와주면 정말 잊지 않을게","혹시 조금만 도와줄 수 있겠니?","부탁좀 해도 될까?","이런 부탁해서 미안한데","미안한 부탁인데","연락없다가 부탁해서 미안한데","면목없는 부탁인데","지푸라기 잡는 심정으로 부탁할게","방법이 없어서 그런데","바쁠텐데 정말 미안한데","바쁘니? 부탁 하나만 할게","잘 지내지? 상황이 어쩔수 없어서 그런데","한번만 빌려주면 안 될까?","돈이 부족해서 그런데","어쩔 수 없어서 부탁하는건데","여자친구 선물 줘야해서 그런데","생활비 때문에 그런데","병원비 때문에 그런데","간병비 때문에 그런데","술먹어야 해서 그런데","카드값 내야해서 그런데","주식을 바로 못 빼서 그런데","친구랑 여행가야 해서 그런데","돈이 조금 부족해서 그런데","폰값 빨리 내야해서 그런데","식비가 족해서 그런데","급전이 필요해서 그런데","대출이 안 되어서 그런데","투자 망해서 돈이 없어서 그런데","대출 갚아야 해서 그런데","갑자기 모임이 생겨서 그런데","갑자기 큰 일이 생겨 런데","예상치 못하게 짤려서 그런데","알바를 해도 돈이 부족해서 그런데","갑자기 집안에 조사가 생겨서 그런데","중요한 약속이 있어서 그런데"};
+    private List<string> FriendBorrowMents = new List<string> {"急な事情があってさ","面目ないんだけど","悪いんだけど","久しぶりに連絡してこんなこと言うのも悪いんだけど","こんなことを言うのは恥ずかしいんだけど","こんなことしちゃいけないのは分かってるんだけど","本当にごめん","元気にしてる？","最近ちょっと大変でさ","無理なお願いで悪いんだけど","状況が良くなくてさ","こんなお願いをすることになるとは思わなかったんだけど","助けてもらえるとありがたい。ごめん。","迷惑なお願いだとは思うんだけど","どうしようもない状況でさ","助けてくれたら本当に忘れないよ","もし少しだけ助けてもらえないかな？","ちょっとお願いしてもいい？","こんなお願いしてごめん","悪いお願いなんだけど","連絡もしなかったのにお願いしてごめん","面目ないお願いなんだけど","藁にもすがる思いでお願いするよ","他に方法がなくてさ","忙しいだろうに本当にごめん","忙しい？お願いが一つあるんだけど","元気だよね？どうしようもない事情があってさ","一度だけ貸してくれないかな？","お金が足りなくてさ","どうしようもなくてお願いしてるんだけど","彼女にプレゼントをあげなきゃいけなくてさ","生活費が必要でさ","病院代が必要でさ","介護費が必要でさ","酒を飲まなきゃいけなくてさ","カード代を払わなきゃいけなくてさ","株をすぐに引き出せなくてさ","友達と旅行に行かなきゃいけなくてさ","お金が少し足りなくてさ","携帯代を早く払わなきゃいけなくてさ","食費が足りなくてさ","急にお金が必要でさ","ローンが組めなくてさ","投資に失敗してお金がなくてさ","ローンを返さなきゃいけなくてさ","急に集まりができてさ","急に大変なことが起きてさ","予想もしなかったのにクビになってさ","バイトをしてもお金が足りなくてさ","急に家に弔事ができてさ","大事な約束があってさ"};
     private List<int> borrowAmount = new List<int> {10,15,20,25,30,35,40,45,50};
-    private List<string> FriendAgreeMents = new List<string> {"역시 내 친구다 고마워","진짜 고마워","고마워 ㅠㅠ","친구야 고마워","사랑한다 친구야!!","고마워 친구야","친구야 잊지 않을게","꼭 갚을게 친구야","친구야… 힘든 결정이었을 텐데 고워","갑작스러운 부탁이었는데 고마워 친구야!!","친구야 이 은혜 잊지 않을게","믿어줘서 고마워 친구야","친구야 확실히 갚을게!!","바쁠 텐데 고마워","덕분에 힘이 난다 친구야","친구야 덕분에 살았다","도와줘서 정말 고마워 친구야","친구야 덕분에 해결했어! 꼭 갚을게","고마워 꼭 갚을게","친구야 네가 있어서 다행이다","꼭 갚을게","기억하고 있을게","확실히 갚을게","어려운 결정이었을 텐데 고마워 친구야","큰일 날뻔했는데 고마워"};
-    private List<string> FriendDenyMents = new List<string> {"니가 그러고도 친구냐?","실망이다 친구야","친구가 힘들어하는데 도와주지도 않네","친구야 이럴거야?","우리의 우정이 겨우 이 정도였어?","진심으로 실망이다","나 무시하는거야?","내가 힘들다는데!!!","친구야 내가 뭐 잘못한거 있니?","이건 좀 아니지 않니?","이러면 부탁한 나는 어떤 기분이 들겠니?","그게 다야?","너, 나랑 친구 맞아?","친구가 도와달라는데 이래도 돼?","친구를 도와주기 싫어?","그래","어쩔 수 없지 뭐","네 상황도 있을거니까 이해해","알겠어","미안해","그래 볼일 봐","바쁠텐데 미안해","그냥 무시해 내가 생각해도 이건 아니다","미안해 친구한테 빌리는건 확실히 아닌 것 같다","방해해서 미안해","내가 너무 성급했다 미안","미안해 신경쓰이게 해서","말도 안 되는 부탁이긴 했다 미안해","그래 나중에 밥이나 한번 먹자","그래 잘 지내"};
+    private List<string> FriendAgreeMents = new List<string> {"やっぱりお前は私の友達だ、ありがとう","本当にありがとう","ありがとう T_T","友よ、ありがとう","愛してるぞ、友よ！！","ありがとう、友よ","友よ、この恩は忘れない","必ず返すよ、友よ","友よ…つらい決断だっただろうに、ありがとう","急なお願いだったのにありがとう、友よ！！","友よ、この恩は忘れないよ","信じてくれてありがとう、友よ","友よ、絶対に返すから！！","忙しいだろうにありがとう","おかげで元気が出たよ、友よ","友よ、おかげで助かった","助けてくれて本当にありがとう、友よ","友よ、おかげで解決したよ！必ず返すね","ありがとう、必ず返すよ","友よ、お前がいて本当によかった","必ず返すよ","覚えておくよ","ちゃんと返すよ","つらい決断だっただろうにありがとう、友よ","大変なことになるところだった、ありがとう"};
+    private List<string> FriendDenyMents = new List<string> {"お前、それでも友達か？","がっかりだよ、友よ","友達が苦しんでるのに助けてもくれないんだな","友よ、そんなことするのか？","私たちの友情ってたったこれだけだったのか？","心から失望したよ","私のこと無視してるのか？","私がつらいって言ってるのに！！！","友よ、私が何か悪いことしたか？","これはちょっとひどくないか？","こんなふうにされたら、頼んだ私はどんな気持ちになると思う？","それだけか？","お前、私と本当に友達か？","友達が助けてくれって言ってるのに、これでいいのか？","友達を助けるのが嫌なのか？","そうか","仕方ないよな","お前にも事情があるだろうし、分かるよ","分かった","ごめん","じゃあ用事済ませて","忙しいだろうにごめん","もう無視してくれ、私が考えてもこれは違うよな","ごめん、友達に借りるのはやっぱり違う気がする","邪魔してごめん","私が焦りすぎてた、ごめん","気を遣わせてごめん","無茶なお願いだったよ、ごめん","じゃあ今度ご飯でも一回食べよう","じゃあ元気で"};
 
     void Awake()
     {
@@ -41,48 +44,48 @@ public class DMUIManager : MonoBehaviour
     {
         chatNameText.text = name;
 
-        if (name != "악마" && name != "김민준" && name != "고훈이") {
+        if (name != "悪魔" && name != "ジュン" && name != "ゴ") {
             AddOtherChat();
-        } else if (name == "악마") {
+        } else if (name == "悪魔") {
             DemonChat();
-        } else if (name == "김민준") {
+        } else if (name == "ジュン") {
             BFFChat();
-        } else if (name == "고훈이") {
+        } else if (name == "ゴ") {
             VillainChat();
         }
     }
 
+    //選択肢の表示有無に応じてUIの位置調整
     public void ToggleOptionsUI()
-{
-    ScrollToBottom();
-    optionsActive = !optionsActive;
-    
-    if (optionsActive)
     {
-        optionsUI = Instantiate(optionsUIPrefab);
-        // ScrollView 크기 줄이기 및 위치 조정
-        scrollViewRect.sizeDelta = new Vector2(scrollViewRect.sizeDelta.x, scrollViewRect.sizeDelta.y - optionsHeight);
-        scrollViewRect.anchoredPosition = new Vector2(scrollViewRect.anchoredPosition.x, scrollViewRect.anchoredPosition.y + optionsHeight / 2);
+        ScrollToBottom();
+        optionsActive = !optionsActive;
+        
+        if (optionsActive)
+        {
+            optionsUI = Instantiate(optionsUIPrefab);
+            // ScrollViewの高さ縮小および位置調整
+            scrollViewRect.sizeDelta = new Vector2(scrollViewRect.sizeDelta.x, scrollViewRect.sizeDelta.y - optionsHeight);
+            scrollViewRect.anchoredPosition = new Vector2(scrollViewRect.anchoredPosition.x, scrollViewRect.anchoredPosition.y + optionsHeight / 2);
 
-        // Content 위치 조정
-        contentRect.anchoredPosition = new Vector2(contentRect.anchoredPosition.x, contentRect.anchoredPosition.y + optionsHeight);
+            // Contentの位置調整
+            contentRect.anchoredPosition = new Vector2(contentRect.anchoredPosition.x, contentRect.anchoredPosition.y + optionsHeight);
+        }
+        else
+        {
+            // ScrollView高さ復元および位置を調整
+            scrollViewRect.sizeDelta = new Vector2(scrollViewRect.sizeDelta.x, scrollViewRect.sizeDelta.y + optionsHeight);
+            scrollViewRect.anchoredPosition = new Vector2(scrollViewRect.anchoredPosition.x, scrollViewRect.anchoredPosition.y - optionsHeight / 2);
+
+            // Contentの位置を元に戻す
+            contentRect.anchoredPosition = new Vector2(contentRect.anchoredPosition.x, contentRect.anchoredPosition.y - optionsHeight);
+
+            Destroy(optionsUI);
+        }
+        Canvas.ForceUpdateCanvases();
     }
-    else
-    {
-        // ScrollView 크기 원래대로 및 위치 조정
-        scrollViewRect.sizeDelta = new Vector2(scrollViewRect.sizeDelta.x, scrollViewRect.sizeDelta.y + optionsHeight);
-        scrollViewRect.anchoredPosition = new Vector2(scrollViewRect.anchoredPosition.x, scrollViewRect.anchoredPosition.y - optionsHeight / 2);
 
-        // Content 위치 조정
-        contentRect.anchoredPosition = new Vector2(contentRect.anchoredPosition.x, contentRect.anchoredPosition.y - optionsHeight);
-
-        Destroy(optionsUI);
-    }
-
-    // Canvas 업데이트 강제
-    Canvas.ForceUpdateCanvases();
-}
-
+    //相手のメッセージを追加
     public void AddMessage(string message)
     {
         GameObject newChatBox = Instantiate(otherChatPrefab, content);
@@ -111,66 +114,64 @@ public class DMUIManager : MonoBehaviour
         {
             if (img.name == "Profile")
             {
-                if (nameText.text == "악마") {
+                if (nameText.text == "悪魔") {
                     img.sprite = profiles[0];
-                } else if (nameText.text == "김민준") {
+                } else if (nameText.text == "ジュン") {
                     img.sprite = profiles[1];
-                } else if (nameText.text == "고훈이") {
+                } else if (nameText.text == "ゴ") {
                     img.sprite = profiles[2];
                 }
             }
         }
 
-        // Canvas 업데이트 강제
         Canvas.ForceUpdateCanvases();
-
-        // ScrollView를 맨 아래로 스크롤
         ScrollToBottom();
     }
 
+    //プレイヤーのメッセージを追加
     public void AddMyMessage(string message)
     {
         GameObject newChatBox = Instantiate(myChatPrefab, content);
         TMP_Text messageText = newChatBox.GetComponentInChildren<TMP_Text>();
         messageText.text = message;
 
-        // Canvas 업데이트 강제
         Canvas.ForceUpdateCanvases();
-
-        // ScrollView를 맨 아래로 스크롤
         ScrollToBottom();
     }
 
+    //最下部までスムーズにスクロール
     private IEnumerator SmoothScrollToBottom()
     {
-        float duration = 0.5f; // 스크롤이 완료되는 데 걸리는 시간 (초)
+        float scrollDuration = 0.5f;
         float elapsedTime = 0f;
         float startValue = scrollRect.verticalNormalizedPosition;
-        float endValue = 0f; // 맨 아래로 스크롤
+        float endValue = 0f;
 
-        while (elapsedTime < duration)
+        while (elapsedTime < scrollDuration)
         {
             elapsedTime += Time.deltaTime;
-            scrollRect.verticalNormalizedPosition = Mathf.Lerp(startValue, endValue, elapsedTime / duration);
+            scrollRect.verticalNormalizedPosition = Mathf.Lerp(startValue, endValue, elapsedTime / scrollDuration);
             yield return null;
         }
 
-        scrollRect.verticalNormalizedPosition = endValue; // 최종 위치 설정
+        scrollRect.verticalNormalizedPosition = endValue; // 最終位置を設定
     }
 
-private void ScrollToBottom()
-{
-    if (scrollRect != null)
+    //最下部へのスクロールを安全に実行するメソッド
+    private void ScrollToBottom()
     {
-        Canvas.ForceUpdateCanvases(); // 레이아웃 업데이트 후 스크롤
-        StartCoroutine(SmoothScrollToBottom());
+        if (scrollRect != null)
+        {
+            Canvas.ForceUpdateCanvases();
+            StartCoroutine(SmoothScrollToBottom());
+        }
+        else
+        {
+            Debug.LogError("ScrollTectがインスペクターで割り当てられていません。");
+        }
     }
-    else
-    {
-        Debug.LogError("ScrollRect is null!");
-    }
-}
 
+    //毎日3人登場するランダムな友達（NPC）の生成
     private void AddOtherChat()
     {   
         if (hasChat == false) {
@@ -178,33 +179,31 @@ private void ScrollToBottom()
             PlayerPrefs.SetInt("MaxFriends",maxFriends+1);
             int numFriends = PlayerPrefs.GetInt("CurrentFriends", 0);
             PlayerPrefs.SetInt("CurrentFriends",numFriends+1);
-            // 랜덤 멘트와 금액 설정
+            // ランダムに台詞および金額設定
             string randomMent = FriendBorrowMents[Random.Range(0, FriendBorrowMents.Count)];
             int randomAmount = borrowAmount[Random.Range(0, borrowAmount.Count)];
             int randomDate = Random.Range(1,4);
 
-            string playerName = PlayerPrefs.GetString("Name", "민수");
+            string playerName = PlayerPrefs.GetString("Name", "ブランク");
 
-            AddMessage($"{playerName}야 {randomMent}\n{randomAmount}만원 빌려줄 수 있어?");
-            AddMessage($"{randomDate}일 뒤에 갚을게");
+            AddMessage($"{playerName}、{randomMent}\n{randomAmount}千円貸せる?");
+            AddMessage($"{randomDate}日後に返すよ。");
             
-            // 선택지 UI 활성화
             ToggleOptionsUI();
 
-            // 버튼 텍스트 설정
             Button button1 = optionsUI.transform.Find("Button1").GetComponent<Button>();
             Button button2 = optionsUI.transform.Find("Button2").GetComponent<Button>();
-            button1.GetComponentInChildren<TMP_Text>().text = "빌려준다";
-            button2.GetComponentInChildren<TMP_Text>().text = "안 빌려준다";
+            button1.GetComponentInChildren<TMP_Text>().text = "貸す";
+            button2.GetComponentInChildren<TMP_Text>().text = "貸さない";
 
-            // 버튼 클릭 이벤트 설정
             button1.onClick.AddListener(() => OnAgree(randomAmount,randomDate));
             button2.onClick.AddListener(() => OnDeny());
         } else {
-            Debug.Log("이미 본 대화입니다.");
+            Debug.Log("すでにみた対話です。");
         }
     }
 
+    //プレイヤーが「貸す」を選択した時の処理
     private void OnAgree(int randomAmount, int randomDate)
     {
         int currentMoney = PlayerPrefs.GetInt("MyMoney",0);
@@ -214,9 +213,9 @@ private void ScrollToBottom()
             GameObject gameEventObject = GameObject.Find("GameManager");
             GameEvent gameEvent = gameEventObject.GetComponent<GameEvent>();
             PlayerPrefs.SetInt("MyMoney",currentMoney-randomAmount);
-            AddMyMessage("그래");
+            AddMyMessage("分かった");
 
-            // 랜덤 동의 멘트 추가
+            // ランダムに同意台詞出力
             string randomAgreeMent = FriendAgreeMents[Random.Range(0, FriendAgreeMents.Count)];
             AddMessage(randomAgreeMent);
 
@@ -226,19 +225,20 @@ private void ScrollToBottom()
             gameEvent.AddToList(chatNameText.text, randomAmount, randomDate);
             gameEvent.UpdateAllText();
 
-            // 선택지 UI 비활성화
             ToggleOptionsUI();
+            hasChatted();
         }
     }
 
+    //プレイヤーが「貸さない」を選択した時の処理
     private void OnDeny()
     {
-        AddMyMessage("싫어");
-        // 랜덤 거절 멘트 추가
+        AddMyMessage("無理");
+        // ランダムに拒絶台詞出力
         string randomDenyMent = FriendDenyMents[Random.Range(0, FriendDenyMents.Count)];
         AddMessage(randomDenyMent);
 
-        // CurrentFriends 값 -1
+        // CurrentFriendsを-1
         int currentFriends = PlayerPrefs.GetInt("CurrentFriends", 0);
         PlayerPrefs.SetInt("CurrentFriends", currentFriends - 1);
         
@@ -246,10 +246,11 @@ private void ScrollToBottom()
         GameEvent gameEvent = gameEventObject.GetComponent<GameEvent>();
         gameEvent.UpdateAllText();
         
-        // 선택지 UI 비활성화
         ToggleOptionsUI();
+        hasChatted();
     }
 
+    //チャットを見たことあるかのプラグ
     public void hasChatted() {
         hasChat = true;
     }
@@ -259,10 +260,29 @@ private void ScrollToBottom()
         yield return new WaitForSeconds(3f);
     }
     
+    //選択肢が決定されるまでコルーチンを待機させる
     public IEnumerator WaitForChoice()
     {
         choiceMade = false;
         yield return new WaitUntil(() => choiceMade);
+    }
+    
+    //選択肢UIのテキスト設定とイベント登録
+    private void ToggleOptionsUIStory(string str1, string str2) {
+        ToggleOptionsUI();
+        Button button1 = optionsUI.transform.Find("Button1").GetComponent<Button>();
+        Button button2 = optionsUI.transform.Find("Button2").GetComponent<Button>();
+        button1.onClick.AddListener(() => buttonPrint(button1.GetComponentInChildren<TMP_Text>().text));
+        button2.onClick.AddListener(() => buttonPrint(button2.GetComponentInChildren<TMP_Text>().text));
+        button1.GetComponentInChildren<TMP_Text>().text = $"{str1}";
+        button2.GetComponentInChildren<TMP_Text>().text = $"{str2}";
+    }
+
+    //選択肢が選ばれた際の処理
+    private void buttonPrint(string content) {
+        AddMyMessage(content);
+        OnChoiceMade();
+        ToggleOptionsUI();
     }
 
     private void OnChoiceMade()
@@ -284,100 +304,111 @@ private void ScrollToBottom()
 
     public IEnumerator DemonChatCoroutine() {
         int currentDay = PlayerPrefs.GetInt("CurrentDay",0);
-        string name = PlayerPrefs.GetString("Name","민수");
+        string name = PlayerPrefs.GetString("Name","ブランク");
         GameObject gameEventObject = GameObject.Find("GameManager");
         GameEvent gameEvent = gameEventObject.GetComponent<GameEvent>();
-        if (currentDay == 1) {
-            AddMessage("나 알지?");
-            ToggleOptionsUIStory("뭔데 내 친구에 대해 궁금해 하는거야?","누구신데 처음부터 반말이야?");
+        if (currentDay == 1 && hasChat == false) {
+            AddMessage("私のこと知ってるよな？");
+            ToggleOptionsUIStory("何だよ、なんで私の友達のことを気にしてるんだ？","お前誰だよ、いきなりタメ口か？");
             yield return WaitForChoice();          
-            AddMessage("궁금하지 않아? 내기 하나 하자");
-            ToggleOptionsUIStory("딱히 궁금하진 않은데", "그냥 살면 안돼?");
+            AddMessage("気にならないか？ 賭けを一つしよう");
+            ToggleOptionsUIStory("別に気にはならないけど", "普通に生きてちゃだめなの？");
             yield return WaitForChoice();
-            AddMessage("28일 동안 네 친구들한테서 돈빌려 달라는 메시지가 올거야.");
+            AddMessage("28日間、お前の友達から金を貸してくれってメッセージが届く。");
             yield return new WaitForSeconds(2f);
-            AddMessage("그러고 마지막 날까지 최대한 많은 돈을 돌려받아봐.");
-            ToggleOptionsUIStory("안 하고 싶은데", "내 손해 아니야?");
+            AddMessage("そして最終日までに、できるだけ多くの金を取り返してみろ。");
+            ToggleOptionsUIStory("やりたくないんだけど", "私が損するだけじゃない？");
             yield return WaitForChoice();
-            AddMessage("돌려받은 돈의 3배를 줄게. 어때?");
-            ToggleOptionsUIStory("괜찮은데?", "나쁜데?");
+            AddMessage("回収した金の3倍をやる。どうだ？");
+            ToggleOptionsUIStory("悪くないな？", "最悪なんだけど？");
             yield return WaitForChoice();
-            AddMessage($"됐고! 계약서나 작성하자. 이름은 {name}이고 기간은 28일…");
+            AddMessage($"いいから！ 契約書でも書こう。名前は{name}で、期間は28日…");
             yield return new WaitForSeconds(2f);
-            AddMessage("…좋아… 그럼 28일 동안 잘 부탁해!");
-            ToggleOptionsUIStory("싫어", "계약 파기할래");
+            AddMessage("…よし…じゃあ28日間よろしくな！");
+            ToggleOptionsUIStory("やだ", "契約破棄したい");
             yield return WaitForChoice();
-            AddMessage("(오프라인 상태입니다. - 연락금지)");
-        } else if (currentDay == 5) {
-            AddMessage("고훈이가 돈 빌려달라하면 꼭 빌려줘라");
-            ToggleOptionsUIStory("왜?","싫은데?");
+            AddMessage("(オフライン状態です。- 連絡禁止)");
+            gameEvent.UpdateAllText();
+            hasChatted();
+        } else if (currentDay == 5 && hasChat == false) {
+            AddMessage("ゴフンがお金を貸してくれって言ったら、必ず貸してやれ。");
+            ToggleOptionsUIStory("なんで？","嫌なんだけど？");
             yield return WaitForChoice();
-            AddMessage("왠지 저녀석 내 마음에 들거든");
+            AddMessage("なぜかあいつ、気に入ったんだよ");
             yield return new WaitForSeconds(2f);
-            AddMessage("안 빌려주면 그냥 네 돈 갖고 돌아갈거야");
+            AddMessage("貸さなかったら、そのままお前の金を持って帰るぞ");
             yield return new WaitForSeconds(2f);
-            AddMessage("계약서 2조 3항에 적혀있어");
-            ToggleOptionsUIStory("치밀하네","계약서 6조 2항에 나한테 맞아야 한다는건 없어?");
+            AddMessage("契約書第2条第3項に書いてある");
+            ToggleOptionsUIStory("用意周到だな","契約書第6条第2項に、お前が私に殴られなきゃいけないって書いてないのか？");
             yield return WaitForChoice();
-            AddMessage("(오프라인 상태입니다. - 연락금지)");
-        } else if (currentDay == 8) {
-            AddMessage("그냥 두니까 재미 없는데");
-            ToggleOptionsUIStory("뭔 소리야?", "이젠 뭐 또 할 건데?");
+            AddMessage("(オフライン状態です。- 連絡禁止)");
+            gameEvent.UpdateAllText();
+            hasChatted();
+        } else if (currentDay == 8 && hasChat == false) {
+            AddMessage("このまま放っておくのもつまらないな");
+            ToggleOptionsUIStory("何言ってんだ？", "今度はまた何するつもりだ？");
             yield return WaitForChoice();
-            AddMessage("앞으로 금요일마다 나한테 30만 원씩 헌납해.");
-            ToggleOptionsUIStory("생 양아치 아니야?", "진짜 이건 아니다");
+            AddMessage("これから毎週金曜日ごとに、私に30千円ずつ献上しろ。");
+            ToggleOptionsUIStory("ただのクズじゃないか？", "さすがにこれはないだろ");
             yield return WaitForChoice();
-            AddMessage("나는 월급도 안 받고 너 괴롭혀주는데 억울해서 못 살겠어서 그런다 왜");
-            ToggleOptionsUIStory("내 월급이 줄잖아", "그럼 나는?");
+            AddMessage("私は給料ももらわずにお前をいじめてやってるのに、やってられなくてな。文句あるか？");
+            ToggleOptionsUIStory("私の給料が減るじゃん", "じゃあ私は？");
             yield return WaitForChoice();
-            AddMessage("(오프라인 상태입니다. - 연락금지)");
-        } else if (currentDay == 15) {
+            AddMessage("(オフライン状態です。- 連絡禁止)");
+            gameEvent.UpdateAllText();
+            hasChatted();
+        } else if (currentDay == 15 && hasChat == false) {
             int currentHealth = PlayerPrefs.GetInt("CurrentHealth", 0);
             int maxHealth = PlayerPrefs.GetInt("MaxHealth", 0);
-            AddMessage("이미지를 보냈어요.");
-            AddMessage("동영상을 보냈어요.");
+            AddMessage("画像を送信しました。");
+            AddMessage("動画を送信しました。");
             yield return new WaitForSeconds(2f);
-            AddMessage("돈을 보냈어요.");
-            ToggleOptionsUIStory("뭐하냐?", "빠큐를 보냈어요.");
+            AddMessage("お金を送金しました。");
+            ToggleOptionsUIStory("何してんだ？", "中指を送りました。");
             yield return WaitForChoice();
-            AddMessage("내가 요즘 힘이 없는 것 같아서");
+            AddMessage("最近、なんだか力が出なくてな");
             yield return new WaitForSeconds(2f);
-            AddMessage("당분간 네 체력 1개 압수야.");
-            ToggleOptionsUIStory("아픈 건 네 잘못인데 왜 나한테 이래?", "나도 네 뿔 1개 압수할래");
+            AddMessage("しばらくお前の体力を1つ没収だ。");
+            ToggleOptionsUIStory("具合が悪いのはお前のせいなのに、なんで私に当たるんだ？", "私もお前の角を1本没収したい");
             yield return WaitForChoice();
-            AddMessage("시끄러, 몸살 때문에 잘 거야.");
-            ToggleOptionsUIStory("이러고 그냥 가는 거야?", "몸조리는 개뿔 얼어죽어라");
+            AddMessage("うるさい、風邪気味だから寝る。");
+            ToggleOptionsUIStory("これでそのまま帰るのか？", "養生なんて知るか、凍えて死ね");
             yield return WaitForChoice();
-            AddMessage("(오프라인 상태입니다. - 연락금지)");
+            AddMessage("(オフライン状態です。- 連絡禁止)");
             PlayerPrefs.SetInt("CurrentHealth",currentHealth-1);
             PlayerPrefs.SetInt("MaxHealth",maxHealth-1);
             gameEvent.UpdateAllText();
-        } else if (currentDay == 22) {
-            AddMessage("너 뭐 대출한 거 있냐?");
-            ToggleOptionsUIStory("있으면 어쩔 건데?", "몰라도 되는 거 아니야?");
+            hasChatted();
+        } else if (currentDay == 22 && hasChat == false) {
+            AddMessage("お前、ローンでも組んでるのか？");
+            ToggleOptionsUIStory("あったらどうするんだよ？", "知る必要なくないか？");
             yield return WaitForChoice();
             int hasLoan = PlayerPrefs.GetInt("hasLoan",0);
             if (hasLoan == 0)
-                AddMessage("별거 아니야, 할 일이나 해.");
+                AddMessage("大したことじゃない、やることでもやってろ。");
             else
-                AddMessage("있네? 일일 이자를 5%로 올렸으니 잘 갚도록 해.");
-            ToggleOptionsUIStory("뭐야?", "야");
+                AddMessage("あるんだな？ 日利を5%に上げたから、きっちり返せよ。");
+            ToggleOptionsUIStory("何だよ？", "おい");
             yield return WaitForChoice();
-            AddMessage("(오프라인 상태입니다. - 연락금지)");
-        } else if (currentDay == 28) {
-            AddMessage("벌써 마지막 날이네.");
-            ToggleOptionsUIStory("어쩌라고", "잘가라");
+            AddMessage("(オフライン状態です。- 連絡禁止)");
+            gameEvent.UpdateAllText();
+            hasChatted();
+        } else if (currentDay == 28 && hasChat == false) {
+            AddMessage("もう最終日か。");
+            ToggleOptionsUIStory("だから何だよ", "じゃあな");
             yield return WaitForChoice();
-            AddMessage("드디어 이 썩어빠진 집구석을 떠나는구나.");
-            ToggleOptionsUIStory("뭐야", "내 집에 있었어?");
+            AddMessage("やっとこの腐りきった家を出ていくのか。");
+            ToggleOptionsUIStory("何だよ", "私の家にいたのか？");
             yield return WaitForChoice();
-            AddMessage("혼자 살면 적적하니까 방해하려고 온 거야.");
-            ToggleOptionsUIStory("청소나 하지", "빨래나 하지");
+            AddMessage("一人暮らしだと寂しいだろうから、邪魔しに来たんだよ。");
+            ToggleOptionsUIStory("掃除でもしろよ", "洗濯でもしろよ");
             yield return WaitForChoice();
-            AddMessage("시끄러! 내일 보자.");
-            ToggleOptionsUIStory("뭐지?", "야 일어나봐");
+            AddMessage("うるさい！ また明日な。");
+            ToggleOptionsUIStory("何だ？", "おい、起きろよ");
             yield return WaitForChoice();
-            AddMessage("(오프라인 상태입니다. - 연락금지)");
+            AddMessage("(オフライン状態です。- 連絡禁止)");
+            gameEvent.UpdateAllText();
+            hasChatted();
         }
     }
 
@@ -386,221 +417,222 @@ private void ScrollToBottom()
         string name = PlayerPrefs.GetString("Name","민수");
         GameObject gameEventObject = GameObject.Find("GameManager");
         GameEvent gameEvent = gameEventObject.GetComponent<GameEvent>();
-        if (currentDay == 1) {
-            AddMessage("야, 잘 지냄?");
-            ToggleOptionsUIStory("ㅇㅇ", "너보다");
+        if (currentDay == 1 && hasChat == false) {
+            AddMessage("よ、元気してる？");
+            ToggleOptionsUIStory("うん", "お前よりは");
             yield return WaitForChoice();
-            AddMessage("요놈.. 살아는 있네 ㅋㅋ");
-            ToggleOptionsUIStory("반사", "시체가 말을 하네");
+            AddMessage("こいつ…生きてはいるんだなｗ");
+            ToggleOptionsUIStory("そっくりそのまま返す", "死体がしゃべってるな");
             yield return WaitForChoice();
-            AddMessage("죽을래?!");
-        } else if (currentDay == 3) {
+            AddMessage("死にたいのか？！");
+            gameEvent.UpdateAllText();
+            hasChatted();
+        } else if (currentDay == 3 && hasChat == false) {
             int currentMoney = PlayerPrefs.GetInt("MyMoney",0);
             AddMessage($"{name}");
-            ToggleOptionsUIStory("왜?", "무슨 일이야?");
+            ToggleOptionsUIStory("何？", "どうした？");
             yield return WaitForChoice();
-            AddMessage("20만 원만 빌릴게. 3일 뒤에 갚기 가능");
-            ToggleOptionsUIStory("ㅇㅋ", "안 갚으면 디진다");
+            AddMessage("20千円だけ貸して。3日後には返せる。");
+            ToggleOptionsUIStory("おっけー", "返さなかったら殺すぞ");
             yield return WaitForChoice();
-            AddMessage("안갚으면 니 앞에서 간장샤워할게");
+            AddMessage("返さなかったらお前の前で醤油シャワーするわ");
             PlayerPrefs.SetInt("MyMoney",currentMoney-20);
             gameEvent.UpdateAllText();
-        } else if (currentDay == 6) {
+            hasChatted();
+        } else if (currentDay == 6 && hasChat == false) {
             int currentMoney = PlayerPrefs.GetInt("MyMoney",0);
-            AddMessage("잘 썼당, 땡큐땡큐!");
-            AddMessage("[25만 원 송금]");
-            ToggleOptionsUIStory("나이스", "다행이네");
+            AddMessage("ありがたく使ったよん、サンキューサンキュー！");
+            AddMessage("[25千円送金]");
+            ToggleOptionsUIStory("ナイス", "よかったな");
             yield return WaitForChoice();
             PlayerPrefs.SetInt("MyMoney",currentMoney+25);
             int recovery = PlayerPrefs.GetInt("Recovery",0);
             PlayerPrefs.SetInt("Recovery",recovery+25);
-            AddMessage("수고!");
+            AddMessage("おつかれ！");
             gameEvent.UpdateAllText();
-        } else if (currentDay == 15) {
+            hasChatted();
+        } else if (currentDay == 15 && hasChat == false) {
             int currentMoney = PlayerPrefs.GetInt("MyMoney",0);
-            AddMessage("생축 ㅋㅋ");
-            AddMessage("[50만 원 송금]");
-            ToggleOptionsUIStory("뭐임?", "뭐 잘못 먹음?");
+            AddMessage("誕おめｗ");
+            AddMessage("[50千円送金]");
+            ToggleOptionsUIStory("何これ？", "何か変なものでも食べた？");
             yield return WaitForChoice();
-            AddMessage("너도 내 생일 때 보냈잖아.");
+            AddMessage("お前も私の誕生日のとき送ってくれただろ。");
             yield return new WaitForSeconds(2f);
-            AddMessage("기대할게~~");
-            ToggleOptionsUIStory("조졌네", "감사");
+            AddMessage("期待してるね～～");
+            ToggleOptionsUIStory("終わったな", "ありがと");
             yield return WaitForChoice();
-            AddMessage("그래 들어가고");
+            AddMessage("はいはい、そのへんで。");
             PlayerPrefs.SetInt("MyMoney",currentMoney+50);
             gameEvent.UpdateAllText();
+            hasChatted();
         }
     }
+
 
     public IEnumerator VillainCahatCoroutine() {
         int currentDay = PlayerPrefs.GetInt("CurrentDay",0);
         string name = PlayerPrefs.GetString("Name","민수");
         GameObject gameEventObject = GameObject.Find("GameManager");
         GameEvent gameEvent = gameEventObject.GetComponent<GameEvent>();
-        if (currentDay == 2) {
-            AddMessage("야 잘 지내냐?");
-            ToggleOptionsUIStory("그래, 잘 지낸다.", "너는?");
+        if (currentDay == 2 && hasChat == false) {
+            AddMessage("おい、元気か？");
+            ToggleOptionsUIStory("ああ、元気にしてる。", "お前は？");
             yield return WaitForChoice();
-            AddMessage("다행이네.");
-            ToggleOptionsUIStory("갑자기 왜?", "?");
+            AddMessage("それはよかった。");
+            ToggleOptionsUIStory("急にどうした？", "?");
             yield return WaitForChoice();
-            AddMessage("안부 인사나 하는 거지 뭐.");
-        } else if (currentDay == 4) {
-            AddMessage("별일 없지?");
-            ToggleOptionsUIStory("유튜브나 보고 있지 뭐.", "열심히 보고.");
+            AddMessage("ただ安否確認してるだけだよ。");
+            gameEvent.UpdateAllText();
+            hasChatted();
+        } else if (currentDay == 4 && hasChat == false) {
+            AddMessage("変わりないよな？");
+            ToggleOptionsUIStory("YouTubeでも見てるだけだよ。", "せいぜい見とけ。");
             yield return WaitForChoice();
-            AddMessage("나는 인스타 열심히 보는 중.");
-            ToggleOptionsUIStory("열심히 보고.", "그래.");
+            AddMessage("私はインスタを熱心に見てるところ。");
+            ToggleOptionsUIStory("せいぜい見とけ。", "そうか。");
             yield return WaitForChoice();
-        } else if (currentDay == 7) {
+            gameEvent.UpdateAllText();
+            hasChatted();
+        } else if (currentDay == 7 && hasChat == false) {
             int currentMoney = PlayerPrefs.GetInt("MyMoney",0);
-            AddMessage($"{name}, 갑자기 부탁해서 미안한데 내일 돈 쓸 일이 생겼다. 진짜 이틀 뒤까지 갚을 수 있는데 계좌이체 좀 해 줄 수 있니?");
-            ToggleOptionsUIStory("무슨 일인데?", "갑자기?");
+            AddMessage($"{name}、急なお願いで悪いんだけど、明日お金を使う用事ができたんだ。本当に二日後までには返せるから、ちょっと振り込んでもらえないかな？");
+            ToggleOptionsUIStory("何があったんだ？", "急に？");
             yield return WaitForChoice();
-            AddMessage("내일 어머니 생신인데 이번까지 한 번도 선물 안 해드렸었거든. 돈 옮기다가 한도 때문에 막혀버렸어.");
+            AddMessage("明日母さんの誕生日なんだけど、今まで一度もプレゼントしてなかったんだ。お金を移そうとしたら、限度額のせいで引っかかってしまって。");
             yield return new WaitForSeconds(2f);
-            AddMessage("진짜 돈은 이틀 뒤에 꼭 줄게.");
-            ToggleOptionsUIStory("몇 원 필요한데?", "그래.");
+            AddMessage("本当にお金は二日後に必ず返すよ。");
+            ToggleOptionsUIStory("いくら必要なんだ？", "分かった。");
             yield return WaitForChoice();
-            AddMessage("50만 원이면 돼.");
+            AddMessage("50千円あればいい。");
             PlayerPrefs.SetInt("MyMoney",currentMoney-50);
             yield return new WaitForSeconds(2f);
-            AddMessage("아, 진짜 고맙다 ㅠ 꼭 이틀 뒤에 보낼게.");
+            AddMessage("あ、本当にありがとう二日後に必ず送るよ。");
             gameEvent.UpdateAllText();
-        } else if (currentDay == 10) {
+            hasChatted();
+        } else if (currentDay == 10 && hasChat == false) {
             int currentMoney = PlayerPrefs.GetInt("MyMoney",0);
-            ToggleOptionsUIStory("어제까지 갚아야 했던 거 아니야?","안녕하세요?");
+            ToggleOptionsUIStory("昨日までに返すはずじゃなかったか？","もしもし？");
             yield return WaitForChoice();
-            AddMessage($"{name}, 내가 수도권에 안 사는데 일 있어서 올라왔다가 돈이 없어서 집에 못 가고 있다.");
-            ToggleOptionsUIStory("뭐라고?", "요즘 스마트폰으로 은행 앱 잘되잖아.");
+            AddMessage($"{name}、私さ、首都圏に住んでないのに用事があってこっちに来たんだけど、お金がなくて家に帰れないんだ。");
+            ToggleOptionsUIStory("何だって？", "今どきスマホで銀行アプリ使えるだろ。");
             yield return WaitForChoice();
-            AddMessage("아, 진짜 미안. 내가 최근에 적금 깼는데 그거 들어오면 줄려고 했어.");
+            AddMessage("あ、本当にごめん。最近積立を解約したんだけど、それが入ってきたら返そうと思ってたんだ。");
             yield return new WaitForSeconds(2f);
-            AddMessage("전화해보니까 이틀 뒤에 들어온대.");
+            AddMessage("電話してみたら、入るのは二日後だって。");
             yield return new WaitForSeconds(2f);
-            AddMessage("일단 자야 할 것 같은데 숙박비 줄 수 있니?");
-            ToggleOptionsUIStory("일 때문에 수도권 갔는데 돈이 없다고?", "정신이 있는 거야?");
+            AddMessage("とりあえず寝なきゃいけなさそうなんだけど、宿泊費を出してくれないか？");
+            ToggleOptionsUIStory("用事で首都圏に行ったのに金がないって？", "正気か？");
             yield return WaitForChoice();
-            AddMessage("진짜 미안. 정말 지금 사정이 있어서 그렇다.");
+            AddMessage("本当に悪い。今は本当に事情があるんだ。");
             yield return new WaitForSeconds(2f);
-            AddMessage("숙박비랑 교통비랑 식비 좀 보태줘라.");
-            ToggleOptionsUIStory("장난하냐?", "몇 원 필요한데?");
+            AddMessage("宿泊費と交通費と食費を少し足してくれ。");
+            ToggleOptionsUIStory("ふざけてるのか？", "いくら必要なんだ？");
             yield return WaitForChoice();
-            AddMessage("숙박비 10 + 교통비 10 + 식비 1 = 21만 원이면 된다.");
-            ToggleOptionsUIStory("정신 차리고 다녀라.", "돌겠네.");
+            AddMessage("宿泊費10＋交通費10＋食費1で、21千円あればいい。");
+            ToggleOptionsUIStory("しっかりしろよ。", "まいったな。");
             yield return WaitForChoice();
             PlayerPrefs.SetInt("MyMoney",currentMoney-21);
-            AddMessage("믿어줘서 고맙다. 진짜 이틀 뒤에 보낼게.");
+            AddMessage("信じてくれてありがとう。本当に二日後に送るよ。");
             gameEvent.UpdateAllText();
-        } else if (currentDay == 13) {
+            hasChatted();
+        } else if (currentDay == 13 && hasChat == false) {
             int currentMoney = PlayerPrefs.GetInt("MyMoney",0);
-            ToggleOptionsUIStory("양치기 소년도 거짓말 두 번 했어.","음메헤헤헤");
+            ToggleOptionsUIStory("狼少年だって嘘は二回までだったぞ。","メェヘヘヘ");
             yield return WaitForChoice();
-            AddMessage("내가 사실 저번 달에 소액결제 한 게 있어서 그거 갚아야 하는데.\n100만원만 빌릴 수 있을까?");
-            ToggleOptionsUIStory("100만 원이 개 이름이냐?", "장난해?");
+            AddMessage("実は先月キャリア決済した分があって、それを返さなきゃいけないんだ。\n100千円だけ貸してもらえないかな？");
+            ToggleOptionsUIStory("100千円って犬の名前かよ？", "ふざけてるのか？");
             yield return WaitForChoice();
-            AddMessage("이번이 마지노선이라 안 갚으면 큰일 난다. 제발.");
-            ToggleOptionsUIStory("뭐 했길래 큰일 나는데?", "그래서?");
+            AddMessage("今回が本当に限界なんだ。返せなかったら大変なことになる。頼む。");
+            ToggleOptionsUIStory("何したらそんな大変なことになるんだ？", "それで？");
             yield return WaitForChoice();
-            AddMessage("나 사실대로 말할게.");
+            AddMessage("正直に話すよ。");
             yield return new WaitForSeconds(4f);
-            AddMessage("사실 나 불법도박했어.");
+            AddMessage("実は私、違法賭博をしてた。");
             yield return new WaitForSeconds(2f);
-            AddMessage("이제 정신 차리고 평범한 삶 살려고 한다.");
-            ToggleOptionsUIStory("그래서?", "어쩌라고?");
+            AddMessage("これからは気を入れ直して、普通の生活を送ろうと思ってる。");
+            ToggleOptionsUIStory("それで？", "だから何だよ？");
             yield return WaitForChoice();
-            AddMessage("진짜 100만 원만 빌려줘. 이틀 뒤 월급날에 줄게.");
-            ToggleOptionsUIStory("도박하지 마라.", "미치겠네.");
+            AddMessage("本当に100千円だけ貸してくれ。二日後の給料日に返すから。");
+            ToggleOptionsUIStory("ギャンブルなんかするな。", "ほんと勘弁してくれ。");
             yield return WaitForChoice();
-            AddMessage("아, 진짜 절대 안 한다. 고훈이 제발 정신 차리자.");
+            AddMessage("ああ、もう本当に二度としない。ゴフン、頼むから目を覚ませ。");
             yield return new WaitForSeconds(2f);
             PlayerPrefs.SetInt("MyMoney",currentMoney-100);
-            AddMessage("믿고 빌려줘서 고마워ㅠ 월급 받자마자 줄게");
+            AddMessage("信じて貸してくれてありがとう 給料をもらったらすぐ返すよ");
             gameEvent.UpdateAllText();
-        } else if (currentDay == 16) {
+            hasChatted();
+        } else if (currentDay == 16 && hasChat == false) {
             int currentMoney = PlayerPrefs.GetInt("MyMoney",0);
-            ToggleOptionsUIStory("월급은 어디갔니?","이게 뭔 시츄에이션이야?");
+            ToggleOptionsUIStory("給料はどこ行ったんだ？","これどういうシチュエーションなんだ？");
             yield return WaitForChoice();
-            AddMessage("아, 진짜 미안하다. 친구가 신고한다고 해서 그 친구부터 줬다.");
-            ToggleOptionsUIStory("장난하니?", "뭐 하자는 거야?");
+            AddMessage("ああ、本当に悪い。友達が通報するって言うから、そいつに先に返したんだ。");
+            ToggleOptionsUIStory("ふざけてるのか？", "どういうつもりだ？");
             yield return WaitForChoice();
-            AddMessage("진짜로 나는 진심이다.");
+            AddMessage("本当に、私は本気なんだ。");
             yield return new WaitForSeconds(2f);
-            AddMessage("야간 알바도 뛰면서 돈 메꾸고 있다.");
+            AddMessage("夜のバイトもしながら金を埋めてるところなんだ。");
             yield return new WaitForSeconds(2f);
-            AddMessage("믿어줘라. 돈은 꼭 갚을게.");
-            ToggleOptionsUIStory("그래, 꼭 갚아야지.", "약속은 지켜야 하는 거 알지?");
+            AddMessage("信じてくれ。金は必ず返す。");
+            ToggleOptionsUIStory("ああ、絶対返せよ。", "約束は守らなきゃいけないって分かってるよな？");
             yield return WaitForChoice();
-            AddMessage("그래서 그런데 월세 90만 원 밀렸는데 빌려줄 수 있니?");
+            AddMessage("それでなんだけど、家賃90千円滞納してて、貸してくれないか？");
             yield return new WaitForSeconds(2f);
-            AddMessage("진짜 급해서 그런다.");
-            ToggleOptionsUIStory("돈 갚을 생각은 있냐?", "진짜 장난하냐?");
+            AddMessage("本当に切羽詰まってるんだ。");
+            ToggleOptionsUIStory("金を返す気はあるのか？", "マジでふざけてるのか？");
             yield return WaitForChoice();
-            AddMessage("진짜 절실하다. 나 알바도 뛰고 있어서 많이 대화 못한다.");
+            AddMessage("本当に切実なんだ。バイトもしてるから、あまり長く話せない。");
             yield return new WaitForSeconds(2f);
-            AddMessage("90만 원만 빌려줘라. 진짜 이틀 뒤에 꼭 갚을게.");
-            ToggleOptionsUIStory("꼭 갚아라.", "내가 왜 이럴까");
+            AddMessage("90千円だけ貸してくれ。本当に二日後に必ず返すから。");
+            ToggleOptionsUIStory("必ず返せよ。", "私はなんでこんなことしてるんだろう");
             yield return WaitForChoice();
             PlayerPrefs.SetInt("MyMoney",currentMoney-90);
-            AddMessage("정말로 갚을 수 있다. 고맙다.");
+            AddMessage("本当に返せる。ありがとう。");
             gameEvent.UpdateAllText();
-        } else if (currentDay == 19) {
+            hasChatted();
+        } else if (currentDay == 19 && hasChat == false) {
             int currentMoney = PlayerPrefs.GetInt("MyMoney",0);
             int bigMoney = 0;
-            ToggleOptionsUIStory("야.","뭐하냐?");
+            ToggleOptionsUIStory("おい。","何してる？");
             yield return WaitForChoice();
-            AddMessage("내가 도박했었잖아. 그걸로 신고 먹어서 벌금부터 냈다.");
-            ToggleOptionsUIStory("그래서?", "나한테 그런 말은 왜 하는 걸까?");
+            AddMessage("私、ギャンブルしてたじゃん。それで通報されて、まず罰金を払ったんだ。");
+            ToggleOptionsUIStory("それで？", "なんでそんな話を私にするんだ？");
             yield return WaitForChoice();
-            AddMessage("벌금 아직 남았는데 진짜 마지막으로 빌릴 수 있을까?");
-            ToggleOptionsUIStory("제발 이런 짓 좀 그만하면 안 되냐?", "나는 돈을 돌려받고 싶다고.");
+            AddMessage("まだ罰金が残ってるんだけど、本当に最後に貸してもらえないか？");
+            ToggleOptionsUIStory("頼むから、こういうこともうやめてくれないか？", "私は金を返してほしいんだよ。");
             yield return WaitForChoice();
-            AddMessage("아, 진짜 마지막이다. 맹세할게.");
-            ToggleOptionsUIStory("네 말이 믿겨진다고 생각하니?", "너 같으면 빌려주겠니?");
+            AddMessage("ああ、本当にこれが最後だ。誓うよ。");
+            ToggleOptionsUIStory("お前の言葉が信じられると思うか？", "お前だったら貸すか？");
             yield return WaitForChoice();
-            AddMessage("진짜 마지막으로 한 번만 빌릴게.");
+            AddMessage("本当に最後に一回だけ借りる。");
             yield return new WaitForSeconds(2f);
-            AddMessage("진짜 진심이다.");
+            AddMessage("本当に本気なんだ。");
             yield return new WaitForSeconds(2f);
             if (currentMoney/2 >= 300) {
                 bigMoney = 300;
             } else {
                 bigMoney = currentMoney/2;
             }
-            AddMessage($"{bigMoney} 만원이다.");
-            ToggleOptionsUIStory("내가 미쳤지.", "아오 그냥!!!");
+            AddMessage($"{bigMoney}千円だ。");
+            ToggleOptionsUIStory("私がバカだった。", "ああもう！！！");
             yield return WaitForChoice();
             PlayerPrefs.SetInt("MyMoney",currentMoney-bigMoney);
-            AddMessage("아, 진짜 진짜 고맙다. 꼭 이틀 뒤에 갚을게 ㅠㅠ");
+            AddMessage("ああ、本当に本当にありがとう。必ず二日後に返すよ(T_T)");
             gameEvent.UpdateAllText();
-        } else if (currentDay == 22) {
-            ToggleOptionsUIStory("빨리 안 갚냐?","기상 기상!!!");
+            hasChatted();
+        } else if (currentDay == 22 && hasChat == false) {
+            ToggleOptionsUIStory("早く返さないのか？","起きろ起きろ！！！");
             yield return WaitForChoice();
-            AddMessage("아, 진짜 너무 힘들다.");
+            AddMessage("ああ、もう本当にきつい。");
             yield return new WaitForSeconds(2f);
-            AddMessage("여기서도 재촉하고 저기서도 재촉하고.");
+            AddMessage("こっちでも催促されて、あっちでも催促されて。");
             yield return new WaitForSeconds(2f);
-            AddMessage("그냥 신고당하고 감방이나 갈란다.");
-            ToggleOptionsUIStory("야.", "뭐라고?");
+            AddMessage("もう通報されて、そのままムショにでも行こうかな。");
+            ToggleOptionsUIStory("おい。", "何だって？");
             yield return WaitForChoice();
-            AddMessage("(안 읽음 상태 유지)");
+            AddMessage("(未読のまま)");
+            gameEvent.UpdateAllText();
+            hasChatted();
         }
-    }
-
-    private void ToggleOptionsUIStory(string str1, string str2) {
-        ToggleOptionsUI();
-        Button button1 = optionsUI.transform.Find("Button1").GetComponent<Button>();
-        Button button2 = optionsUI.transform.Find("Button2").GetComponent<Button>();
-        button1.onClick.AddListener(() => buttonPrint(button1.GetComponentInChildren<TMP_Text>().text));
-        button2.onClick.AddListener(() => buttonPrint(button2.GetComponentInChildren<TMP_Text>().text));
-        button1.GetComponentInChildren<TMP_Text>().text = $"{str1}";
-        button2.GetComponentInChildren<TMP_Text>().text = $"{str2}";
-    }
-
-    private void buttonPrint(string content) {
-        AddMyMessage(content);
-        OnChoiceMade();
-        ToggleOptionsUI();
     }
 }

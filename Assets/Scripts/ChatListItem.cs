@@ -1,4 +1,7 @@
-using NUnit.Framework.Constraints;
+/*
+ * 残り体力に応じてチャット画面のクリックイベントを制御するクラス
+ */
+
 using TMPro;
 using UnityEngine;
 
@@ -8,7 +11,7 @@ public class ChatListItem : MonoBehaviour
     public GameObject notice;
     public GameObject warningLowHealthUI;
     private GameObject currentDMUI;
-    public bool hasChatted = false; // 처음에는 false로 설정
+    public bool hasChatted = false;
 
     public void OnChatListItemClicked()
     {   
@@ -26,13 +29,12 @@ public class ChatListItem : MonoBehaviour
                 currentDMUI.SetActive(true);
             }
 
-            // DMUI 스크립트에 접근하여 SetChatName 호출
             DMUIManager dmuiScript = currentDMUI.GetComponent<DMUIManager>();
             dmuiScript.SetChatName(chatName);
             dmuiScript.hasChatted();
         } else {
             Instantiate(warningLowHealthUI);
-            Debug.Log("체력이 부족합니다");
+            Debug.Log("体力が尽きています。");
         }        
     }
 }
